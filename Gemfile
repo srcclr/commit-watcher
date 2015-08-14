@@ -34,6 +34,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Easy to configure environment variables in config/application.yml
 gem 'figaro', '~> 1.1.0'
 
+# Queues and workers and jobs, oh my!
+gem 'sidekiq', '~> 3.4.0'
+gem 'sidetiq'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -42,6 +45,8 @@ gem 'figaro', '~> 1.1.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+
+gem 'sinatra', '>= 1.3.0', :require => nil
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
