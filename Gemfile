@@ -36,7 +36,8 @@ gem 'figaro', '~> 1.1.0'
 
 # Queues and workers and jobs, oh my!
 gem 'sidekiq', '~> 3.4.0'
-gem 'sidetiq'
+gem "sidekiq-cron", "~> 0.3.0"
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

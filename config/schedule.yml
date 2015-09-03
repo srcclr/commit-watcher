@@ -1,0 +1,5 @@
+enqueue_repos:
+  cron: "*/1 * * * *"
+  class: "RepoEnqueuer"
+  queue: enqueue_repos
+
