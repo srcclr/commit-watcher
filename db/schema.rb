@@ -1,6 +1,6 @@
 Sequel.migration do
   change do
-    create_table(:configuration) do
+    create_table(:configurations) do
       primary_key :id, :type=>"int(11) unsigned"
       column :crawl_frequency, "int(11) unsigned", :default=>1440, :null=>false
       column :global_patterns, "text", :null=>false
@@ -30,14 +30,6 @@ Sequel.migration do
       column :commit_date, "datetime", :null=>false
       column :matched_patterns, "mediumtext", :null=>false
       column :commit, "char(40)", :default=>"", :null=>false
-      column :date_created, "timestamp", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
-      
-      index [:project_id], :name=>:project_id
-    end
-    
-    create_table(:crawl_queue) do
-      primary_key :id, :type=>"int(11) unsigned", :table=>:commits, :key=>[:project_id]
-      column :project_id, "int(11) unsigned"
       column :date_created, "timestamp", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
       
       index [:project_id], :name=>:project_id
