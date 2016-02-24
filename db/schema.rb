@@ -5,7 +5,6 @@ Sequel.migration do
       column :crawl_frequency, "int(11) unsigned", :default=>1440, :null=>false
       column :global_patterns, "text", :null=>false
       column :github_token, "char(40)", :default=>"", :null=>false
-      column :crawl_queue_interval, "smallint(5) unsigned", :default=>1, :null=>false
     end
     
     create_table(:patterns) do
@@ -18,9 +17,8 @@ Sequel.migration do
       column :name, "varchar(100)", :default=>"", :null=>false
       column :patterns, "text"
       column :ignore_global_patterns, "tinyint(1) unsigned", :default=>false, :null=>false
-      column :last_crawled, "datetime"
-      column :last_commit_date, "datetime"
-      column :new_commits, "mediumint(8) unsigned", :default=>0, :null=>false
+      column :next_crawl, "int(11) unsigned", :default=>0, :null=>false
+      column :last_commit, "char(40)"
       column :date_created, "timestamp", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
     end
     

@@ -2,11 +2,11 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.3'
+gem 'rails', '4.2.5.1'
 
 # Use mysql + sequel instead of ActiveRecord
 gem 'mysql2'
-gem "sequel-rails"
+gem 'sequel-rails'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -32,11 +32,11 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Easy to configure environment variables in config/application.yml
-gem 'figaro', '~> 1.1.0'
+gem 'figaro', '~> 1.1.1'
 
 # Queues and workers and jobs, oh my!
-gem 'sidekiq', '~> 3.4.0'
-gem "sidekiq-cron", "~> 0.3.0"
+gem 'sidekiq', '~> 4.1.0'
+gem "sidekiq-cron", "~> 0.4.2"
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -47,7 +47,7 @@ gem "sidekiq-cron", "~> 0.3.0"
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'sinatra', '>= 1.3.0', :require => nil
+gem 'sinatra', '>= 1.4.7', :require => nil
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

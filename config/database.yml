@@ -49,6 +49,6 @@ test:
 #
 production:
   <<: *default
-  database: commit_auditor_production
+  database: commit_auditor_development
   username: commit_auditor
   password: <%= ENV['COMMIT_AUDITOR_DATABASE_PASSWORD'] %>
