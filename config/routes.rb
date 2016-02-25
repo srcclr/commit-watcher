@@ -2,12 +2,15 @@ require 'sidekiq/web'
 require 'sidekiq/cron/web'
 
 Rails.application.routes.draw do
-  resources :projects
+
   resources :configurations
+  resources :projects
+  resources :commits
 
   get 'dashboard/index'
-  get 'projects/index'
   get 'configurations/index'
+  get 'projects/index'
+  get 'commits/index'
 
   mount Sidekiq::Web => '/sidekiq'
 

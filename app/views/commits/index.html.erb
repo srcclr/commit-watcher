@@ -1,0 +1,23 @@
+<h1>Commits</h1>
+
+<p><%= link_to 'Dashboard', controller: 'dashboard' %></p>
+
+<table border="1" cellpadding="10">
+  <tr>
+    <th>Project Name</th>
+    <th>Commit Date</th>
+    <th>Commit Hash</th>
+    <th>Audit Results</th>
+    <th>Date Created</th>
+  </tr>
+
+  <% @commits.each do |commit| %>
+    <tr>
+      <td><%= commit.project_name %></td>
+      <td><%= commit.commit_date %></td>
+      <td><%= commit.commit_hash %></td>
+      <td><pre><%= commit.audit_results %></pre></td>
+      <td><%= commit.date_created %></td>
+    </tr>
+  <% end %>
+</table>

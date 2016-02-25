@@ -19,7 +19,7 @@ class RepoEnqueuer
                     rule_ids += JSON.parse(p[:rules])
                 end
             end
-            rules = Rules.graph(:rule_types, :id => :rule_type_id)
+            rules = Rules.graph(:rule_types, { id: :rule_type_id }, { join_type: :inner })
                 .where(:rules__id => rule_ids)
                 .select(:rules__id, :rules__rule, :rule_types__name)
 
