@@ -84,30 +84,30 @@ class RepoAuditor
         when 'commit_author'
             audit_commit_author(commit, rule[:rule])
         when 'pattern'
-            audit_commit_pattern(commit, rule[:rule], diff, github_token)
+            audit_commit_pattern(commit, rule[:rule], diff)
         when 'filename'
-            audit_commit_filename(commit, rule[:rule], diff, github_token)
+            audit_commit_filename(commit, rule[:rule], diff)
         when 'message_pattern'
             audit_commit_message(commit, rule[:rule])
         when 'code_pattern'
-            audit_commit_code(commit, rule[:rule], diff, github_token)
+            audit_commit_code(commit, rule[:rule], diff)
         when 'combination'
             audit_combination(commit, rule[:rule], diff, github_token)
         end
     end
 
-    def audit_commit_pattern(commit, rule, diff, github_token)
+    def audit_commit_pattern(commit, rule, diff)
         results = []
         result = audit_commit_message(commit, rule)
         results << result if result
 
-        result = audit_commit_code(commit, rule, diff, github_token)
+        result = audit_commit_code(commit, rule, diff)
         results << result if result
 
         results.empty? ? nil : results
     end
 
-    def audit_commit_filename(commit, rule, diff, github_token)
+    def audit_commit_filename(commit, rule, diff)
         #diff --git a/some/path/Heap.java b/some/path/Heap.java
         return if diff.empty?
 
@@ -135,8 +135,11 @@ class RepoAuditor
         (message =~ pattern) ? message : nil
     end
 
-    def audit_commit_code(commit, rule, diff, github_token)
-        #curl -H "Accept: application/vnd.github.diff" https://api.github.com/repos/pengwynn/dotfiles/commits/aee60a4cd56fb4c6a50e60f17096fc40c0d4d72c
+    def audit_commit_code(commit, rule, diff)
+        #curl -H "Accept: application/vnd.github.diff" https://api.github.com/repos/CalebFenton/simplify/commits/d6dcaa7203e859037bfaa1222f85111feb3dbe93
+        pattern = Regexp.new(rule)
+
+        (diff =~ pattern) ? diff : nil
     end
 
     def audit_combination(commit, rule, diff, github_token)
