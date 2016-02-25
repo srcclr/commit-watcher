@@ -1,0 +1,33 @@
+<h1>Showing Project</h1>
+
+<%= link_to 'Back', projects_path %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @project.name %>
+</p>
+
+<p>
+  <strong>Rules:</strong>
+  <%= @project.rules %>
+</p>
+
+<p>
+  <strong>Ignore Global Rules:</strong>
+  <%= @project.ignore_global_rules %>
+</p>
+
+<p>
+  <strong>Next Audit:</strong>
+  <%= @project.next_audit %>
+</p>
+
+<p>
+  <strong>Last Commit Time:</strong>
+  <%= @project.last_commit_time %>
+</p>
+
+<p>
+  <strong>Date Created:</strong>
+  <%= @project.date_created %>
+</p>

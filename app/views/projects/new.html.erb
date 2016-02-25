@@ -1,0 +1,24 @@
+<h1>New Project</h1>
+
+<%= link_to 'Back', projects_path %>
+
+<%= form_for :project, url: projects_path do |f| %>
+  <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= f.label :rules %><br>
+    <%= f.text_area :rules %>
+  </p>
+
+  <p>
+    <%= f.label :ignore_global_rules %><br>
+    <%= f.check_box :ignore_global_rules %>
+  </p>
+
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
