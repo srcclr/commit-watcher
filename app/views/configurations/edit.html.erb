@@ -1,0 +1,41 @@
+<h1>Editing Configuration</h1>
+
+<%= form_for :configuration, url: configuration_path(@configuration.id), method: :patch do |f| %>
+
+  <% if @configuration.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@configuration.errors.count, "error") %> prohibited
+        this configuration from being saved:
+      </h2>
+      <ul>
+        <% @configuration.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p>
+    <%= f.label :audit_frequency %><br>
+    <%= f.text_field :audit_frequency %>
+  </p>
+
+  <p>
+    <%= f.label :global_rules %><br>
+    <%= f.text_area :global_rules %>
+  </p>
+
+  <p>
+    <%= f.label :github_token %><br>
+    <%= f.text_field :github_token %>
+  </p>
+
+
+  <p>
+    <%= f.submit %>
+  </p>
+
+<% end %>
+
+<%= link_to 'Back', configurations_path %>

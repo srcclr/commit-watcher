@@ -3,10 +3,11 @@ require 'sidekiq/cron/web'
 
 Rails.application.routes.draw do
   resources :projects
+  resources :configurations
 
   get 'projects/index'
 
-  get 'configuration/index'
+  get 'configurations/index'
 
   mount Sidekiq::Web => '/sidekiq'
 

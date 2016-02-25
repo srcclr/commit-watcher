@@ -1,0 +1,17 @@
+<table border="1">
+  <tr>
+    <th>Audit Frequency</th>
+    <th>Global Rules</th>
+    <th>GitHub Token</th>
+    <th></th>
+  </tr>
+
+  <% @configurations.each do |configuration| %>
+    <tr>
+      <td><%= configuration.audit_frequency %></td>
+      <td><%= configuration.global_rules %></td>
+      <td><%= configuration.github_token %></td>
+      <td><%= link_to 'Edit', edit_configuration_path(configuration.id) %></td>
+    </tr>
+  <% end %>
+</table>
