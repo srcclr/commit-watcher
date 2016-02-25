@@ -6,5 +6,5 @@ staging:
 production:
   :concurrency: 10
 :queues:
-  - collect_commits
+  - audit_repo
   - enqueue_repos
