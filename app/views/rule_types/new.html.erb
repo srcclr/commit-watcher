@@ -1,0 +1,14 @@
+<h1>New Rule Type</h1>
+
+<%= link_to 'Back', rule_types_path %>
+
+<%= form_for :rule_type, url: rule_types_path do |f| %>
+  <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>

@@ -1,4 +1,3 @@
-
 class ProjectsController < ApplicationController
   def index
     @projects = Projects
