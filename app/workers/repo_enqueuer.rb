@@ -11,7 +11,7 @@ class RepoEnqueuer
         config = Configurations.first unless projects.empty?
         projects.each do |p|
             rule_ids = JSON.parse(config[:global_rules])
-            if p[:rules]
+            unless (p[:rules] || '').empty?
                 if config[:ignore_global_rules]
                     rule_ids = JSON.parse(p[:rules])
                 else
