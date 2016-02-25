@@ -13,7 +13,7 @@
 
   <% @commits.each do |commit| %>
     <tr>
-      <td><%= commit.project_name %></td>
+      <td><%= commit[:project_name] %></td>
       <td><%= commit.commit_date %></td>
       <td><%= commit.commit_hash %></td>
       <td><pre><%= commit.audit_results %></pre></td>

@@ -16,13 +16,13 @@ class RepoAuditor
         Projects[:id => project_id].update(:next_audit => next_audit)
 
         last_commit_time = Time.parse(last_commit_time)
-        rules = JSON.parse(rules)
+        rules = JSON.parse(rules, :symbolize_names => true)
 
         Rails.logger.debug "Collecting commits for #{repo_name}"
         latest_commits = get_latest_commits(
             repo_name, last_commit_time, github_token
         )
-        Rails.logger.debug "Auditing #{latest_commits.size} commits from #{repo_name} with #{rules.count} rules"
+        Rails.logger.debug "Auditing #{latest_commits.size} commits from #{repo_name} against #{rules.count} rules"
         return if latest_commits.size == 0
 
         audit_results = audit(latest_commits, rules, github_token)
@@ -109,6 +109,8 @@ class RepoAuditor
 
     def audit_commit_filename(commit, rule, diff, github_token)
         #diff --git a/some/path/Heap.java b/some/path/Heap.java
+        return if diff.empty?
+
         diff_cmd_parts = diff.lines.first.split(' ')
         filenames = diff_cmd_parts[2..3].collect { |e| e[2..-1] }
 
@@ -134,6 +136,7 @@ class RepoAuditor
     end
 
     def audit_commit_code(commit, rule, diff, github_token)
+        #curl -H "Accept: application/vnd.github.diff" https://api.github.com/repos/pengwynn/dotfiles/commits/aee60a4cd56fb4c6a50e60f17096fc40c0d4d72c
     end
 
     def audit_combination(commit, rule, diff, github_token)
