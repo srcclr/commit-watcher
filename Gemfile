@@ -47,6 +47,12 @@ gem "sidekiq-cron", "~> 0.4.2"
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Parse diffs from GitHub
+gem 'git_diff_parser'
+
+# Use this to_json method to avoid encoding errors
+gem 'activesupport-json_encoder'
+
 gem 'sinatra', '>= 1.4.7', :require => nil
 
 group :development, :test do

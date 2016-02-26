@@ -1,3 +1,5 @@
+require 'git_diff_parser'
+require 'activesupport/json_encoder'
 require_relative '../../lib/github_api'
 
 class Auditor
@@ -40,9 +42,11 @@ class Auditor
     end
 
     def get_commit_diff(commit, github_token)
+        #curl -H "Accept: application/vnd.github.diff" https://api.github.com/repos/CalebFenton/simplify/commits/d6dcaa7203e859037bfaa1222f85111feb3dbe93
         commit_url = commit[:url]
         headers = { 'Accept' => 'application/vnd.github.VERSION.diff' }
-        GitHubAPI.request_page(commit_url, github_token, nil, headers)
+        diff_raw = GitHubAPI.request_page(commit_url, github_token, nil, headers)
+        diff_raw.empty? ? nil : GitDiffParser.parse(diff_raw)
     end
 
     def audit_commit(commit, rule, diff, github_token)
@@ -74,13 +78,10 @@ class Auditor
     end
 
     def audit_commit_filename(commit, rule, diff)
-        #diff --git a/some/path/Heap.java b/some/path/Heap.java
-        return if diff.empty?
-
-        diff_cmd_parts = diff.lines.first.split(' ')
-        filenames = diff_cmd_parts[2..3].collect { |e| e[2..-1] }
+        return unless diff
 
         pattern = Regexp.new(rule)
+        filenames = diff.collect { |e| e.file }
         results = filenames.select { |e| e =~ pattern }
         results.empty? ? nil : results
     end
@@ -90,22 +91,28 @@ class Auditor
         author_name = commit[:commit][:author][:name]
         author_email = commit[:commit][:author][:email]
         author = "#{author_name} <#{author_email}>"
-
         (author =~ pattern) ? author : nil
     end
 
     def audit_commit_message(commit, rule)
         pattern = Regexp.new(rule)
         message = commit[:commit][:message]
-
         (message =~ pattern) ? message : nil
     end
 
     def audit_commit_code(commit, rule, diff)
-        #curl -H "Accept: application/vnd.github.diff" https://api.github.com/repos/CalebFenton/simplify/commits/d6dcaa7203e859037bfaa1222f85111feb3dbe93
-        pattern = Regexp.new(rule)
+        return unless diff
 
-        (diff =~ pattern) ? diff : nil
+        pattern = Regexp.new(rule)
+        results = []
+        diff.each do |d|
+            next unless d.body =~ pattern
+            results << {
+                file: d.file,
+                body: d.body,
+            }
+        end
+        results.empty? ? nil : results
     end
 
     def audit_combination(commit, rule, diff, github_token)

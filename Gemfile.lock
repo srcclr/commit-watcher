@@ -36,6 +36,8 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    activesupport-json_encoder (1.1.0)
+      activesupport (>= 4.1.0, < 5.0)
     arel (6.0.3)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -56,6 +58,7 @@ GEM
     execjs (2.6.0)
     figaro (1.1.1)
       thor (~> 0.14)
+    git_diff_parser (2.2.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
@@ -183,9 +186,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport-json_encoder
   byebug
   coffee-rails (~> 4.1.0)
   figaro (~> 1.1.1)
+  git_diff_parser
   jbuilder (~> 2.0)
   jquery-rails
   mysql2
