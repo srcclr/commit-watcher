@@ -1,0 +1,31 @@
+<h1>Showing Commit</h1>
+
+<%= link_to 'Back', commits_path %>
+
+<p>
+  <strong>Project Name:</strong>
+  <%= @commit[:project_name] %>
+</p>
+
+<p>
+  <strong>Commit Date:</strong>
+  <%= @commit.commit_date %>
+</p>
+
+<p>
+  <strong>Commit Hash:</strong>
+  <%= @commit.commit_hash %>
+</p>
+
+<p>
+  <strong>Date Created:</strong>
+  <%= @commit.date_created %>
+</p>
+
+<p>
+  <strong>Audit Results:</strong>
+  <br />
+  <textarea rows="30" cols="150">
+<%= JSON.pretty_generate(JSON[@commit.audit_results]) %>
+  </textarea>
+</p>

@@ -1,5 +1,6 @@
 require 'git_diff_parser'
 require 'activesupport/json_encoder'
+
 require_relative '../../lib/github_api'
 
 class Auditor

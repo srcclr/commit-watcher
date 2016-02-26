@@ -2,22 +2,22 @@
 
 <p><%= link_to 'Dashboard', controller: 'dashboard' %></p>
 
-<table border="1" cellpadding="10">
+<table border="1" cellpadding="10" style="table-layout:fixed;" >
   <tr>
-    <th>Project Name</th>
-    <th>Commit Date</th>
-    <th>Commit Hash</th>
+    <th width="150px">Project Name</th>
+    <th width="150px">Commit Hash</th>
+    <th width="180px">Commit Date</th>
+    <th width="180px">Date Created</th>
     <th>Audit Results</th>
-    <th>Date Created</th>
   </tr>
 
   <% @commits.each do |commit| %>
     <tr>
       <td><%= commit[:project_name] %></td>
+      <td><%= link_to commit.commit_hash, commit_path(commit.id) %></td>
       <td><%= commit.commit_date %></td>
-      <td><%= commit.commit_hash %></td>
-      <td><pre><%= commit.audit_results %></pre></td>
       <td><%= commit.date_created %></td>
+      <td><pre><%= commit.audit_results %></pre></td>
     </tr>
   <% end %>
 </table>
