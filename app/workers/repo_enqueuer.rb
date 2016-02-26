@@ -1,4 +1,4 @@
-require_relative 'repo_auditor'
+require_relative 'commit_collector'
 require_relative '../models/configurations'
 require_relative '../models/projects'
 
@@ -24,8 +24,10 @@ class RepoEnqueuer
                 .select(:rules__id, :rules__rule, :rule_types__name)
 
             last_commit_time = p[:last_commit_time] || Time.at(0)
-            RepoAuditor.perform_async(p[:id], p[:name], last_commit_time,
-                config[:github_token], config[:audit_frequency], rules.to_json)
+            CommitCollector.perform_async(
+                p[:id], p[:name], last_commit_time, config[:audit_frequency],
+                rules.to_json, config[:github_token]
+            )
         end
     end
 end
