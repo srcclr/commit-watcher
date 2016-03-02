@@ -107,7 +107,7 @@ private
     def self.audit_commit_pattern(commit, pattern, diff)
         results = []
         results << audit_message_pattern(commit, pattern)
-        results << audit_code_pattern(commit, pattern, diff) if diff
+        results << audit_code_pattern(pattern, diff) if diff
         results.compact!
         results.empty? ? nil : results
     end

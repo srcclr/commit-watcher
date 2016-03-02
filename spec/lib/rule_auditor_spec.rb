@@ -85,7 +85,7 @@ describe RuleAuditor do
             end
 
             context 'with unmatching diff' do
-                let(:diff) { [patch_herpy_txt, patch_herpy_java] }
+                let(:diff) { [patch_herpy_java] }
 
                 it { should be nil }
             end
@@ -93,7 +93,6 @@ describe RuleAuditor do
 
         context 'with expression rule' do
             let(:rule_type_id) { RuleTypes.select { |k, v| v['name'] == 'expression' }.keys.first }
-            let(:rule_value) { 'rule1 && rule2' }
             let(:rule1) {
                 type_id = RuleTypes.select { |k, v| v['name'] == 'filename' }.keys.first
                 { name: 'rule1', rule_type_id: type_id, rule_value: '\.txt\z' }
@@ -102,21 +101,30 @@ describe RuleAuditor do
                 type_id = RuleTypes.select { |k, v| v['name'] == 'filename' }.keys.first
                 { name: 'rule2', rule_type_id: type_id, rule_value: '\.java\z' }
             }
-            let(:rules) {
-                m = double('Rules')
-                allow(m).to receive(:where).and_return([rule1, rule2])
-                m
+            let(:rules) { double('Rules') }
+            let(:diff) {
+                [{ file: 'path/herpy.java' }, { file: 'wow/derpy.txt' }]
             }
+            let(:commit) { nil }
 
-            context 'with matching diff' do
-                let(:commit) { nil }
-                let(:diff) {
-                    [{ file: 'path/herpy.java' }, { file: 'wow/derpy.txt' }]
-                }
+            context 'with rule value that should match both filenames in diff' do
+                let(:rule_value) { 'rule1 || rule2' }
 
                 it {
+                    allow(rules).to receive(:where).and_return([rule1, rule2])
                     stub_const('Rules', rules)
-                    puts subject
+                    is_expected.to include rule_name: 'rule1', result: %w(wow/derpy.txt)
+                    is_expected.to include rule_name: 'rule2', result: %w(path/herpy.java)
+                }
+            end
+
+            context 'with rule value that should match only one filename in diff' do
+                let(:rule_value) { '!rule2' }
+
+                it {
+                    allow(rules).to receive(:where).and_return([rule2])
+                    stub_const('Rules', rules)
+                    is_expected.to include rule_name: 'rule2', result: nil
                 }
             end
         end
