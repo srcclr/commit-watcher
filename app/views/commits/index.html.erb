@@ -4,7 +4,7 @@
 
 <table border="1" cellpadding="10" style="table-layout:fixed;" >
   <tr>
-    <th width="150px">Project Name</th>
+    <th width="150px">Project ID</th>
     <th width="150px">Commit Hash</th>
     <th width="180px">Commit Date</th>
     <th width="180px">Date Created</th>
@@ -13,7 +13,7 @@
 
   <% @commits.each do |commit| %>
     <tr>
-      <td><%= commit[:project_name] %></td>
+      <td><%= commit.project_id %></td>
       <td><%= link_to commit.commit_hash, commit_path(commit.id) %></td>
       <td><%= commit.commit_date %></td>
       <td><%= commit.date_created %></td>

@@ -8,4 +8,4 @@ production:
 :queues:
   - audit_commits
   - collect_commits
-  - enqueue_repos
+  - enqueue_projects

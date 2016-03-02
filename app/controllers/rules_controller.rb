@@ -4,22 +4,20 @@ class RulesController < ApplicationController
   end
 
   def edit
-    id = params[:id].to_i
-    @rule = Rules[:id => id]
+    @rule = Rules[id: params[:id].to_i]
   end
 
   def create
-    @rule = Rules.create(create_rule_params)
+    @rule = Rules.create(rule_params)
 
     redirect_to action: 'index'
   end
 
   def update
-    id = params[:id].to_i
-    @rule = Rules[:id => id]
+    @rule = Rules[id: params[:id].to_i]
 
     begin
-      @rule.update(update_rule_params)
+      @rule.update(rule_params)
       redirect_to action: 'index'
     rescue Sequel::ValidationError
       render 'edit'
@@ -27,8 +25,7 @@ class RulesController < ApplicationController
   end
 
   def destroy
-    id = params[:id].to_i
-    @rule = Rules[:id => id]
+    @rule = Rules[id: params[:id].to_i]
     @rule.destroy
 
     redirect_to rules_path
@@ -36,11 +33,7 @@ class RulesController < ApplicationController
 
 private
 
-  def create_rule_params
-    params.require(:rule).permit(:rule_type_id, :rule)
-  end
-
-  def update_rule_params
-    params.require(:rule).permit(:rule_type_id, :rule)
+  def rule_params
+    params.require(:rule).permit(:name, :rule_type_id, :value, :description)
   end
 end

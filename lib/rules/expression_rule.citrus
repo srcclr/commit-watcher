@@ -1,0 +1,62 @@
+# A grammar for boolean expressions.
+# Operators: &&, ||, !
+grammar Boolean
+
+  ## Hierarchical syntax
+
+  rule term
+    oritive | factor
+  end
+
+  rule oritive
+    (factor operator:('||') space* term) {
+      capture(:factor).value || capture(:term).value
+    }
+  end
+
+  rule factor
+    anditive | prefix
+  end
+
+  rule anditive
+    (prefix operator:('&&') space* factor) {
+      capture(:prefix).value && capture(:factor).value
+    }
+  end
+
+  rule prefix
+    prefixed | primary
+  end
+
+  rule prefixed
+    (operator:('!') space* prefix) {
+      !capture(:prefix).value
+    }
+  end
+
+  rule primary
+    group | boolean
+  end
+
+  rule group
+    (lparen term rparen) {
+      capture(:term).value
+    }
+  end
+
+  ## Lexical syntax
+
+  rule boolean
+    (bool_value space*) {
+      to_str.rstrip.downcase.eql?('true') ? true : false
+    }
+  end
+
+  rule bool_value
+    /true/i | /false/i
+  end
+
+  rule lparen '(' space* end
+  rule rparen ')' space* end
+  rule space  [ \t\n\r]  end
+end

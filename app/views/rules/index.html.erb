@@ -5,15 +5,19 @@
 <%= link_to 'New Rule', new_rule_path %>
 <table border="1" cellpadding="10">
   <tr>
+    <th>Name</th>
     <th>Rule Type Id</th>
-    <th>Rule</th>
+    <th>Value</th>
+    <th>Description</th>
     <th colspan="2"></th>
   </tr>
 
   <% @rules.each do |rule| %>
     <tr>
+      <td><%= rule.name %></td>
       <td><%= rule.rule_type_id %></td>
-      <td><%= rule.rule %></td>
+      <td><%= rule.value %></td>
+      <td><%= rule.description %></td>
       <td><%= link_to 'Edit', edit_rule_path(rule.id) %></td>
       <td><%= link_to 'Delete', rule_path(rule.id),
         method: :delete,

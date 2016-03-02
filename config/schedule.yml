@@ -1,4 +1,4 @@
-enqueue_repos:
+enqueue_projects:
   cron: "*/1 * * * *"
-  class: "RepoEnqueuer"
-  queue: enqueue_repos
+  class: "ProjectEnqueuer"
+  queue: enqueue_projects

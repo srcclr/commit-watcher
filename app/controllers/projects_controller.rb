@@ -3,14 +3,8 @@ class ProjectsController < ApplicationController
     @projects = Projects
   end
 
-  def show
-    id = params[:id].to_i
-    @project = Projects[:id => id]
-  end
-
   def edit
-    id = params[:id].to_i
-    @project = Projects[:id => id]
+    @project = Projects[id: params[:id].to_i]
   end
 
   def create
@@ -20,20 +14,13 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    id = params[:id].to_i
-    @project = Projects[:id => id]
-
-    begin
-      @project.update(update_project_params)
-      redirect_to action: 'show', id: id
-    rescue Sequel::ValidationError
-      render 'edit'
-    end
+    @project = Projects[id: params[:id].to_i]
+    @project.update(update_project_params)
+    redirect_to action: 'index'
   end
 
   def destroy
-    id = params[:id].to_i
-    @project = Projects[:id => id]
+    @project = Projects[id: params[:id].to_i]
     @project.destroy
 
     redirect_to projects_path
@@ -42,10 +29,10 @@ class ProjectsController < ApplicationController
 private
 
   def create_project_params
-    params.require(:project).permit(:name, :rules, :ignore_global_rules)
+    params.require(:project).permit(:name, :rule_sets)
   end
 
   def update_project_params
-    params.require(:project).permit(:name, :rules, :ignore_global_rules, :next_audit, :last_commit_time)
+    params.require(:project).permit(:name, :rule_sets, :next_audit, :last_commit_time)
   end
 end

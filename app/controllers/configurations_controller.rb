@@ -6,25 +6,18 @@ class ConfigurationsController < ApplicationController
   end
 
   def edit
-    id = params[:id].to_i
-    @configuration = Configurations[:id => id]
+    @configuration = Configurations[id: params[:id].to_i]
   end
 
   def update
-    id = params[:id].to_i
-    @configuration = Configurations[:id => id]
-
-    begin
-      @configuration.update(update_configuration_params)
-      redirect_to action: 'index'
-    rescue Sequel::ValidationError
-      render 'edit'
-    end
+    @configuration = Configurations[id: params[:id].to_i]
+    @configuration.update(configuration_params)
+    redirect_to action: 'index'
   end
 
 private
 
-  def update_configuration_params
-    params.require(:configuration).permit(:audit_frequency, :global_rules, :github_token)
+  def configuration_params
+    params.require(:configuration).permit(:name, :audit_frequency, :github_token)
   end
 end

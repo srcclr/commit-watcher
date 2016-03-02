@@ -1,0 +1,24 @@
+<h1>New Rule Set</h1>
+
+<%= link_to 'Back', rule_set_path %>
+
+<%= form_for :rule_set, url: rule_set_path do |f| %>
+  <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= f.label :rules %><br>
+    <%= f.text_field :rules %>
+  </p>
+
+  <p>
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </p>
+
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>

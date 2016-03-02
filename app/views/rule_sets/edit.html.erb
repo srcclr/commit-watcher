@@ -1,0 +1,40 @@
+<h1>Editing Rule Set</h1>
+
+<%= form_for :rule_set, url: rule_set_path(@rule_set.id), method: :patch do |f| %>
+
+  <% if @rule_set.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@rule_set.errors.count, "error") %> prohibited
+        this rule set from being saved:
+      </h2>
+      <ul>
+        <% @rule_set.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= f.label :rules %><br>
+    <%= f.text_field :rules %>
+  </p>
+
+  <p>
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </p>
+
+  <p>
+    <%= f.submit %>
+  </p>
+
+<% end %>
+
+<%= link_to 'Back', rule_sets_path %>

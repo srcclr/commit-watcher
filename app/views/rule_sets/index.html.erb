@@ -1,0 +1,25 @@
+<h1>Rule Sets</h1>
+
+<p><%= link_to 'Dashboard', controller: 'dashboard' %></p>
+
+<%= link_to 'New Rule Set', new_rule_set_path %>
+<table border="1" cellpadding="10">
+  <tr>
+    <th>Name</th>
+    <th>Rules</th>
+    <th>Description</th>
+    <th colspan="2"></th>
+  </tr>
+
+  <% @rule_sets.each do |rule_set| %>
+    <tr>
+      <td><%= rule_set.name %></td>
+      <td><%= rule_set.rules %></td>
+      <td><%= rule_set.description %></td>
+      <td><%= link_to 'Edit', edit_rule_set_path(rule_set.id) %></td>
+      <td><%= link_to 'Delete', rule_set_path(rule_set.id),
+        method: :delete,
+        data: { confirm: 'Really? Are you being serious right now?' } %></td>
+    </tr>
+  <% end %>
+</table>

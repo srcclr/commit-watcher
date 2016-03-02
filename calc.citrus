@@ -1,0 +1,82 @@
+# A grammar for mathematical formulas that apply basic mathematical operations
+# to all numbers, respecting operator precedence and grouping of expressions
+# while ignoring whitespace. This grammar should provide the same interpretation
+# as Ruby for all mathematical expressions.
+grammar Calc
+
+  ## Hierarchical syntax
+
+  rule term
+    additive | factor
+  end
+
+  rule additive
+    (factor operator:('+' | '-') space* term) {
+      capture(:factor).value.send(capture(:operator).to_s, capture(:term).value)
+    }
+  end
+
+  rule factor
+    multiplicative | prefix
+  end
+
+  rule multiplicative
+    (prefix operator:('*' | '/' | '%') space* factor) {
+      capture(:prefix).value.send(capture(:operator).to_s, capture(:factor).value)
+    }
+  end
+
+  rule prefix
+    prefixed | exponent
+  end
+
+  rule prefixed
+    (operator:('-' | '+' | '~') space* prefix) {
+      s = capture(:operator).to_s
+      s += '@' unless s == '~' # Unary + and - require an @.
+      capture(:prefix).value.send(s)
+    }
+  end
+
+  rule exponent
+    exponential | primary
+  end
+
+  rule exponential
+    (primary operator:'**' space* prefix) {
+      capture(:primary).value.send(capture(:operator).to_s, capture(:prefix).value)
+    }
+  end
+
+  rule primary
+    group | number
+  end
+
+  rule group
+    (lparen term rparen) {
+      capture(:term).value
+    }
+  end
+
+  ## Lexical syntax
+
+  rule number
+    float | integer
+  end
+
+  rule float
+    (digits '.' digits space*) { to_str.to_f }
+  end
+
+  rule integer
+    (digits space*) { to_str.to_i }
+  end
+
+  rule digits
+    [0-9]+ ('_' [0-9]+)* # Numbers may contain underscores.
+  end
+
+  rule lparen '(' space* end
+  rule rparen ')' space* end
+  rule space  [ \t\n\r]  end
+end

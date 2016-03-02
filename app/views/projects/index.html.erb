@@ -6,23 +6,20 @@
 <table border="1" cellpadding="10">
   <tr>
     <th>Name</th>
-    <th>Rules</th>
-    <th>Ignore Global Rules</th>
+    <th>Rule Sets</th>
     <th>Next Audit</th>
     <th>Last Commit Time</th>
     <th>Date Created</th>
-    <th colspan="3"></th>
+    <th colspan="2"></th>
   </tr>
 
   <% @projects.each do |project| %>
     <tr>
       <td><%= project.name %></td>
-      <td><%= project.rules %></td>
-      <td><%= project.ignore_global_rules %></td>
+      <td><%= project.rule_sets %></td>
       <td><%= project.next_audit %></td>
       <td><%= project.last_commit_time %></td>
       <td><%= project.date_created %></td>
-      <td><%= link_to 'Show', project_path(project.id) %></td>
       <td><%= link_to 'Edit', edit_project_path(project.id) %></td>
       <td><%= link_to 'Delete', project_path(project.id),
         method: :delete,

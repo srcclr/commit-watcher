@@ -50,6 +50,9 @@ gem "sidekiq-cron", "~> 0.4.2"
 # Parse diffs from GitHub
 gem 'git_diff_parser'
 
+# Boolean expression grammar parsing
+gem 'citrus'
+
 # Use this to_json method to avoid encoding errors
 gem 'activesupport-json_encoder'
 
@@ -66,6 +69,10 @@ group :development, :test do
   gem 'spring'
 
   # Tests
-  gem 'rspec', '~> 3.3.0'
+  gem 'rspec', '~> 3.4.0'
+  gem 'rspec-rails', '~> 3.4.0'
+
+  # Create hashes that look like classes with methods
+  gem 'hash_dot'
 end
 
