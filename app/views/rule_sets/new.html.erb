@@ -1,8 +1,8 @@
 <h1>New Rule Set</h1>
 
-<%= link_to 'Back', rule_set_path %>
+<%= link_to 'Back', rule_sets_path %>
 
-<%= form_for :rule_set, url: rule_set_path do |f| %>
+<%= form_for :rule_set, url: rule_sets_path do |f| %>
   <p>
     <%= f.label :name %><br>
     <%= f.text_field :name %>
