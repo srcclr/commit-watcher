@@ -39,25 +39,29 @@ private
         diff.each do |d|
             matches = d.body.scan(pattern)
             next if matches.empty?
-            match_offsets = $~.offset(0) # perl, is that you?
 
             changed_lines = d.changed_lines.collect { |e| e.content }
             changed_ranges = []
+            index_offset = 0
             changed_lines.each do |line|
-                start = d.body.index(line)
-                stop = start + line.length - 1
+                start = d.body.index(line, index_offset)
+                stop = start + line.length
+                index_offset = stop
                 changed_ranges << [start, stop]
             end
             next if changed_lines.empty?
 
             in_changed_range = false
-            match_offsets.each_with_index do |offset, idx|
-                match = matches[idx]
-                changed_ranges.each do |range|
-                    next if offset > range[1]
-
-                    end_offset = offset + match.length
-                    next if end_offset <= range[0]
+            index_offset = 0
+            matches.each do |match|
+                # If regex contained groups, match could be an array
+                match = match.join if match.is_a?(Array)
+                start_offset = d.body.index(match, index_offset)
+                end_offset = start_offset + match.length
+                index_offset = end_offset
+                changed_ranges.each do |(change_start, change_end)|
+                    next if start_offset >= change_end
+                    next if end_offset <= change_start
 
                     in_changed_range = true
                     break

@@ -42,7 +42,7 @@ private
         RuleAuditor.audit(
             commit,
             rule[:rule_type_id],
-            rule[:rule_value],
+            rule[:value],
             diff
         )
     end
