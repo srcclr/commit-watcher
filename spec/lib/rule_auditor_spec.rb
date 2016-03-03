@@ -95,11 +95,11 @@ describe RuleAuditor do
             let(:rule_type_id) { RuleTypes.select { |k, v| v['name'] == 'expression' }.keys.first }
             let(:rule1) {
                 type_id = RuleTypes.select { |k, v| v['name'] == 'filename' }.keys.first
-                { name: 'rule1', rule_type_id: type_id, rule_value: '\.txt\z' }
+                { name: 'rule1', rule_type_id: type_id, value: '\.txt\z' }
             }
             let(:rule2) {
                 type_id = RuleTypes.select { |k, v| v['name'] == 'filename' }.keys.first
-                { name: 'rule2', rule_type_id: type_id, rule_value: '\.java\z' }
+                { name: 'rule2', rule_type_id: type_id, value: '\.java\z' }
             }
             let(:rules) { double('Rules') }
             let(:diff) {

@@ -7,9 +7,7 @@ require 'spec_helper'
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
-Dir["#{File.dirname(__FILE__)}/../lib/**/*.rb"].each { |f|
-  puts f
-  require f }
+Dir["#{File.dirname(__FILE__)}/../lib/**/*.rb"].each { |f| require f }
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -27,6 +25,10 @@ Dir["#{File.dirname(__FILE__)}/../lib/**/*.rb"].each { |f|
 # Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
+  config.around(:each) do |example|
+    Sequel::DATABASES.first.transaction(rollback: :always, auto_savepoint: true){ example.run }
+  end
+
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
   # `post` in specs under `spec/controllers`.
