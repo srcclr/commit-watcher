@@ -11,8 +11,8 @@ Sequel.migration do
     
     create_table(:projects) do
       primary_key :id, :type=>"int(11) unsigned"
-      column :name, "varchar(100)", :default=>"", :null=>false
-      column :rule_sets, "varchar(50)", :default=>"", :null=>false
+      column :name, "varchar(200)", :default=>"", :null=>false
+      column :rule_sets, "varchar(200)", :default=>"", :null=>false
       column :next_audit, "int(11) unsigned", :default=>0, :null=>false
       column :last_commit_time, "timestamp", :null=>true
       column :date_created, "timestamp", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
@@ -31,7 +31,7 @@ Sequel.migration do
     
     create_table(:rules) do
       primary_key :id, :type=>"int(11) unsigned"
-      column :name, "varchar(100)", :default=>"", :null=>false
+      column :name, "varchar(50)", :default=>"", :null=>false
       column :rule_type_id, "int(11) unsigned", :null=>false
       column :value, "longtext", :null=>false
       column :description, "text"
