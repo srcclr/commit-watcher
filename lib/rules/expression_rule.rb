@@ -1,14 +1,17 @@
 require 'Citrus'
 
 class ExpressionRule
-    Citrus.load "#{Rails.root}/lib/rules/expression_rule"
+    attr_reader :rule_names
 
     def initialize(expression)
         @expression = expression
-        @rules = parse_rules
+        @rule_names = parse_rule_names
+        @rules = nil
     end
 
     def evaluate(commit, diff)
+        @rules ||= Rules.where(name: @rule_names)
+
         all_results = []
         diff.each do |patch|
             results = []
@@ -33,9 +36,8 @@ class ExpressionRule
 
 private
 
-    def parse_rules
-        rule_names = @expression.tr('!&|()', '').split(/\s+/).uniq.sort
-        Rules.where(name: rule_names)
+    def parse_rule_names
+        @expression.tr('!&|()', '').split(/\s+/).uniq.sort
     end
 
     def evaluate_rule(rule, commit, diff)
