@@ -1,29 +1,29 @@
 
 1:
-  name: 'filename'
-  requires_diff: true
-  description: 'Regular expression for a filename'
+  :name: 'filename'
+  :requires_diff: true
+  :description: 'Regular expression for a filename'
 2:
-  name: 'changed_code_pattern'
-  requires_diff: true
-  description: 'Regular expression for a changed line'
+  :name: 'changed_code_pattern'
+  :requires_diff: true
+  :description: 'Regular expression for a changed line'
 3:
-  name: 'code_pattern'
-  requires_diff: true
-  description: 'Regular expression for any code in a changed file'
+  :name: 'code_pattern'
+  :requires_diff: true
+  :description: 'Regular expression for any code in a changed file'
 4:
-  name: 'message_pattern'
-  requires_diff: false
-  description: 'Regular expression for a commit message'
+  :name: 'message_pattern'
+  :requires_diff: false
+  :description: 'Regular expression for a commit message'
 5:
-  name: 'author_pattern'
-  requires_diff: false
-  description: 'Regular expression for a commit author name, normalied to "name <email>"'
+  :name: 'author_pattern'
+  :requires_diff: false
+  :description: 'Regular expression for a commit author name, normalied to "name <email>"'
 6:
-  name: 'expression'
-  requires_diff: true
-  description: 'Boolean expression referencing one or more rules'
+  :name: 'expression'
+  :requires_diff: true
+  :description: 'Boolean expression referencing one or more rules'
 7:
-  name: 'commit_pattern'
-  requires_diff: true
-  description: 'Combination of code_pattern and message_pattern'
+  :name: 'commit_pattern'
+  :requires_diff: true
+  :description: 'Combination of code_pattern and message_pattern'

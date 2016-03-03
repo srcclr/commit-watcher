@@ -46,7 +46,7 @@ private
 
     def get_commit_diff(commit, rules, github_token)
         rule_type_ids = rules.collect { |e| e[:rule_type_id] }
-        diff_rule_type_ids = RuleTypes.select { |k, v| v['requires_diff'] }.keys
+        diff_rule_type_ids = RuleTypes.select { |k, v| v[:requires_diff] }.keys
         return if (rule_type_ids & diff_rule_type_ids).empty?
 
         #curl -H "Accept: application/vnd.github.diff" https://api.github.com/repos/CalebFenton/simplify/commits/d6dcaa7203e859037bfaa1222f85111feb3dbe93

@@ -10,7 +10,7 @@
 
   <p>
     <%= f.label :rule_type_id %><br>
-    <%= f.select :rule_type_id, RuleTypes.collect { |k,v| [v['name'], k] } %>
+    <%= f.select :rule_type_id, RuleTypes.collect { |k, v| [v[:name], k] } %>
   </p>
 
   <p>

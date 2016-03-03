@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Rules do
     describe '.new' do
         let(:name) { 'name' }
-        let(:expression_id) { RuleTypes.select { |k, v| v['name'] == 'expression' }.keys.first }
+        let(:expression_id) { RuleTypes.select { |_, v| v[:name] == 'expression' }.keys.first }
         # Expression rules have special validation
         let(:rule_type_id) { (RuleTypes.keys - [expression_id]).sample }
         let(:value) { 'pattern' }

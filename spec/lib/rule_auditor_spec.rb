@@ -31,7 +31,7 @@ describe RuleAuditor do
 
         context 'with filename rule' do
             let(:commit) { nil }
-            let(:rule_type_id) { RuleTypes.select { |k, v| v['name'] == 'filename' }.keys.first }
+            let(:rule_type_id) { RuleTypes.select { |_, v| v[:name] == 'filename' }.keys.first }
             let(:rule_value) { 'herpy.java' }
 
             context 'with matching diff' do
@@ -49,7 +49,7 @@ describe RuleAuditor do
 
         context 'with changed_code_pattern rule' do
             let(:commit) { nil }
-            let(:rule_type_id) { RuleTypes.select { |k, v| v['name'] == 'changed_code_pattern' }.keys.first }
+            let(:rule_type_id) { RuleTypes.select { |_, v| v[:name] == 'changed_code_pattern' }.keys.first }
             let(:rule_value) { 'dead channel' }
 
             context 'with matching diff' do
@@ -75,7 +75,7 @@ describe RuleAuditor do
 
         context 'with code_pattern rule' do
             let(:commit) { nil }
-            let(:rule_type_id) { RuleTypes.select { |k, v| v['name'] == 'code_pattern' }.keys.first }
+            let(:rule_type_id) { RuleTypes.select { |_, v| v[:name] == 'code_pattern' }.keys.first }
             let(:rule_value) { 'dead channel' }
 
             context 'with matching diff' do
@@ -92,13 +92,13 @@ describe RuleAuditor do
         end
 
         context 'with expression rule' do
-            let(:rule_type_id) { RuleTypes.select { |k, v| v['name'] == 'expression' }.keys.first }
+            let(:rule_type_id) { RuleTypes.select { |_, v| v[:name] == 'expression' }.keys.first }
             let(:rule1) {
-                type_id = RuleTypes.select { |k, v| v['name'] == 'filename' }.keys.first
+                type_id = RuleTypes.select { |_, v| v[:name] == 'filename' }.keys.first
                 { name: 'rule1', rule_type_id: type_id, value: '\.txt\z' }
             }
             let(:rule2) {
-                type_id = RuleTypes.select { |k, v| v['name'] == 'filename' }.keys.first
+                type_id = RuleTypes.select { |_, v| v[:name] == 'filename' }.keys.first
                 { name: 'rule2', rule_type_id: type_id, value: '\.java\z' }
             }
             let(:rules) { double('Rules') }

@@ -15,7 +15,7 @@ class Rules < Sequel::Model
 
     validates_includes RuleTypes.keys, :rule_type_id
 
-    expression_id = RuleTypes.select { |k, v| v['name'] == 'expression' }.keys.first
+    expression_id = RuleTypes.select { |_, v| v[:name] == 'expression' }.keys.first
     if rule_type_id == expression_id
       dummy = value.gsub(/[A-Za-z0-9\-\._]+/, 'true')
       begin
