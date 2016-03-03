@@ -14,6 +14,8 @@ class ProjectsController < ApplicationController
       redirect_to action: 'index'
     rescue Sequel::ValidationFailed
       render 'new'
+    rescue Sequel::DatabaseError => e
+      render 'new'
     end
   end
 
@@ -23,6 +25,8 @@ class ProjectsController < ApplicationController
       @project.update(update_project_params)
       redirect_to action: 'index'
     rescue Sequel::ValidationFailed
+      render 'edit'
+    rescue Sequel::DatabaseError => e
       render 'edit'
     end
   end

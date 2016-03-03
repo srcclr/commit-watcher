@@ -14,6 +14,8 @@ class ConfigurationsController < ApplicationController
       redirect_to action: 'index'
     rescue Sequel::ValidationFailed
       render 'edit'
+    rescue Sequel::DatabaseError => e
+      render 'edit'
     end
   end
 

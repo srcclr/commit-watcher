@@ -14,6 +14,8 @@ class RuleSetsController < ApplicationController
       redirect_to action: 'index'
     rescue Sequel::ValidationFailed
       render 'new'
+    rescue Sequel::DatabaseError => e
+      render 'new'
     end
 
     redirect_to action: 'index'
@@ -26,7 +28,9 @@ class RuleSetsController < ApplicationController
       redirect_to action: 'index'
     rescue Sequel::ValidationFailed
       render 'edit'
-    end
+     rescue Sequel::DatabaseError => e
+      render 'edit'
+   end
   end
 
   def destroy
