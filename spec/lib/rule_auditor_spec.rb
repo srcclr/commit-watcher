@@ -129,18 +129,11 @@ describe RuleAuditor do
 
         context 'with expression rule' do
             let(:rule_type_id) { RuleTypes.select { |_, v| v[:name] == 'expression' }.keys.first }
-            let(:rule1) {
-                type_id = RuleTypes.select { |_, v| v[:name] == 'filename' }.keys.first
-                { name: 'rule1', rule_type_id: type_id, value: '\.txt\z' }
-            }
-            let(:rule2) {
-                type_id = RuleTypes.select { |_, v| v[:name] == 'filename' }.keys.first
-                { name: 'rule2', rule_type_id: type_id, value: '\.java\z' }
-            }
+            let(:filename_id) { RuleTypes.select { |_, v| v[:name] == 'filename' }.keys.first }
+            let(:rule1) { { name: 'rule1', rule_type_id: filename_id, value: '\.txt\z' } }
+            let(:rule2) { { name: 'rule2', rule_type_id: filename_id, value: '\.java\z' } }
             let(:rules) { double('Rules') }
-            let(:diff) {
-                [{ file: 'path/herpy.java' }, { file: 'wow/derpy.txt' }]
-            }
+            let(:diff) { [{ file: 'path/herpy.java' }, { file: 'wow/derpy.txt' }] }
             let(:commit) { nil }
 
             context 'with rule value that should match both filenames in diff' do
@@ -161,6 +154,20 @@ describe RuleAuditor do
                     allow(rules).to receive(:where).and_return([rule2])
                     stub_const('Rules', rules)
                     is_expected.to include rule_name: 'rule2', result: nil
+                }
+            end
+
+            context 'with empty diff and a commit which should match rule value' do
+                let(:type_id) { RuleTypes.select { |_, v| v[:name] == 'message_pattern' }.keys.first }
+                let(:rule1) { { name: 'rule1', rule_type_id: type_id, value: 'hello' } }
+                let(:rule_value) { 'rule1' }
+                let(:diff) { nil }
+                let(:commit) { { commit: { message: 'hello,world!' } } }
+
+                it {
+                    allow(rules).to receive(:where).and_return([rule1])
+                    stub_const('Rules', rules)
+                    is_expected.to include rule_name: 'rule1', result: 'hello,world!'
                 }
             end
         end

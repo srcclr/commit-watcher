@@ -39,7 +39,11 @@ class Auditor
             audit_results: audit_results.to_json,
         }
 
-        Commits.insert(record)
+        begin
+            Commits.insert(record)
+        rescue Sequel::UniqueConstraintViolation
+            Rails.logger.debug "Dropping duplicate commit: #{record}"
+        end
     end
 
 private
