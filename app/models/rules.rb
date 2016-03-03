@@ -6,7 +6,6 @@ class Rules < Sequel::Model
   def validate
     super
     validates_presence [:name, :rule_type_id, :value]
-
     validates_unique :name
     validates_min_length 3, :name, message: -> (s) { "must be more than #{s} characters" }
     validates_format /[A-Za-z0-9\-\._]+/,

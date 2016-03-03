@@ -6,14 +6,11 @@ class RuleSets < Sequel::Model
   def validate
     super
     validates_presence [:name, :rules]
-
     validates_unique :name
     validates_min_length 3, :name, message: -> (s) { "must be more than #{s} characters" }
 
-    rule_names = nil
     begin
         rule_names = JSON.parse(rules)
-
         errors.add(:rules, 'must include at least one rule') if rule_names.empty?
 
         all_rule_names = Rules.select(:name).collect { |r| r[:name] }
