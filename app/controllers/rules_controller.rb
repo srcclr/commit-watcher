@@ -8,18 +8,21 @@ class RulesController < ApplicationController
   end
 
   def create
-    @rule = Rules.create(rule_params)
-
-    redirect_to action: 'index'
+    @rule = Rules.new(rule_params)
+    begin
+      @rule.save
+      redirect_to action: 'index'
+    rescue Sequel::ValidationFailed
+      render 'new'
+    end
   end
 
   def update
     @rule = Rules[id: params[:id].to_i]
-
     begin
       @rule.update(rule_params)
       redirect_to action: 'index'
-    rescue Sequel::ValidationError
+    rescue Sequel::ValidationFailed
       render 'edit'
     end
   end

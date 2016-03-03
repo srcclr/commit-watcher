@@ -3,6 +3,21 @@
 <%= link_to 'Back', rules_path %>
 
 <%= form_for :rule, url: rules_path do |f| %>
+
+  <% if @rule && @rule.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@rule.errors.count, 'error') %> prohibited
+        this rule from being created:
+      </h2>
+      <ul>
+        <% @rule.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <p>
     <%= f.label :name %><br>
     <%= f.text_field :name %>

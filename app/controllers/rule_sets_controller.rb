@@ -8,18 +8,23 @@ class RuleSetsController < ApplicationController
   end
 
   def create
-    @rule_set = RuleSets.create(rule_set_params)
+    @rule_set = RuleSets.new(rule_set_params)
+    begin
+      @rule_set.save
+      redirect_to action: 'index'
+    rescue Sequel::ValidationFailed
+      render 'new'
+    end
 
     redirect_to action: 'index'
   end
 
   def update
     @rule_set = RuleSets[id: params[:id].to_i]
-
     begin
       @rule_set.update(rule_set_params)
       redirect_to action: 'index'
-    rescue Sequel::ValidationError
+    rescue Sequel::ValidationFailed
       render 'edit'
     end
   end

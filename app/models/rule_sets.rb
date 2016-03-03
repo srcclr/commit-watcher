@@ -19,10 +19,10 @@ class RuleSets < Sequel::Model
         all_rule_names = Rules.select(:name).collect { |r| r[:name] }
         rule_names.each do |rule_name|
             next if all_rule_names.include?(rule_name)
-            errors.add(:rules, 'referenced rule #{rule_name} does not exist')
+            errors.add(:rules, 'referenced rule does not exist: #{rule_name}')
         end
     rescue JSON::ParserError => e
-        errors.add(:rules, 'invalid JSON value #{rules}')
+        errors.add(:rules, 'invalid JSON value: #{rules}')
     end
   end
 end

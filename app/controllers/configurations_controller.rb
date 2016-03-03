@@ -1,5 +1,3 @@
-require 'sequel'
-
 class ConfigurationsController < ApplicationController
   def index
     @configurations = Configurations
@@ -11,8 +9,12 @@ class ConfigurationsController < ApplicationController
 
   def update
     @configuration = Configurations[id: params[:id].to_i]
-    @configuration.update(configuration_params)
-    redirect_to action: 'index'
+    begin
+      @configuration.update(configuration_params)
+      redirect_to action: 'index'
+    rescue Sequel::ValidationFailed
+      render 'edit'
+    end
   end
 
 private

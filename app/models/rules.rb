@@ -11,7 +11,7 @@ class Rules < Sequel::Model
     validates_min_length 3, :name, message: -> (s) { "must be more than #{s} characters" }
     validates_format /[A-Za-z0-9\-\._]+/,
         :name,
-        message: 'invalid name; can include letters, numbers, and "-", ".", "_"'
+        message: 'name must only include letters, numbers, and "-", ".", "_"'
 
     validates_includes RuleTypes.keys, :rule_type_id
 
@@ -20,14 +20,14 @@ class Rules < Sequel::Model
       dummy = value.gsub(/[A-Za-z0-9\-\._]+/, 'true')
       begin
         Boolean.parse(dummy)
-      rescue Citrus::ParseError => e
-        errors.add(:value, "invalid boolean expression #{value}")
-      end
 
-      exp = ExpressionRule.new(value)
-      exp.rule_names.each do |exp_rule_name|
-        next if Rules[name: exp_rule_name]
-        errors.add(:value, "referenced rule #{exp_rule_name} does not exist")
+        exp = ExpressionRule.new(value)
+        exp.rule_names.each do |exp_rule_name|
+          next if Rules[name: exp_rule_name]
+          errors.add(:value, "referenced rule does not exist: #{exp_rule_name}")
+        end
+      rescue Citrus::ParseError => e
+        errors.add(:value, "invalid boolean expression: #{value}")
       end
     else
       begin

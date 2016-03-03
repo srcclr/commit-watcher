@@ -1,5 +1,3 @@
-require 'Citrus'
-
 class ExpressionRule
     attr_reader :rule_names
 

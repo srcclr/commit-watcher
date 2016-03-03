@@ -8,15 +8,23 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @project = Projects.create(create_project_params)
-
-    redirect_to action: 'index'
+    @project = Projects.new(create_project_params)
+    begin
+      @project.save
+      redirect_to action: 'index'
+    rescue Sequel::ValidationFailed
+      render 'new'
+    end
   end
 
   def update
     @project = Projects[id: params[:id].to_i]
-    @project.update(update_project_params)
-    redirect_to action: 'index'
+    begin
+      @project.update(update_project_params)
+      redirect_to action: 'index'
+    rescue Sequel::ValidationFailed
+      render 'edit'
+    end
   end
 
   def destroy

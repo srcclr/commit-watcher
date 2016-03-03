@@ -91,6 +91,42 @@ describe RuleAuditor do
             end
         end
 
+        context 'with message_pattern rule' do
+            let(:diff) { nil }
+            let(:rule_type_id) { RuleTypes.select { |_, v| v[:name] == 'message_pattern' }.keys.first }
+            let(:rule_value) { 'Fix mega vuln' }
+
+            context 'with matching commit' do
+                let(:commit) { { commit: { message: 'Fix mega vulnerability' } } }
+
+                it { should eq 'Fix mega vulnerability' }
+            end
+
+            context 'with unmatching commit' do
+                let(:commit) { { commit: { message: 'Update readme' } } }
+
+                it { should be nil }
+            end
+        end
+
+        context 'with author_pattern rule' do
+            let(:diff) { nil }
+            let(:rule_type_id) { RuleTypes.select { |_, v| v[:name] == 'author_pattern' }.keys.first }
+            let(:rule_value) { 'b <c@m' }
+
+            context 'with matching commit' do
+                let(:commit) { { commit: { author: { name: 'caleb', email: 'c@m'} } } }
+
+                it { should eq 'caleb <c@m>' }
+            end
+
+            context 'with unmatching commit' do
+                let(:commit) { { commit: { author: { name: 'abc', email: 'x@y'} } } }
+
+                it { should be nil }
+            end
+        end
+
         context 'with expression rule' do
             let(:rule_type_id) { RuleTypes.select { |_, v| v[:name] == 'expression' }.keys.first }
             let(:rule1) {
