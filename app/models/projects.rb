@@ -12,7 +12,9 @@ class Projects < Sequel::Model
 
     begin
         rule_set_names = JSON.parse(rule_sets)
-        errors.add(:rule_sets, 'must include at least one rule set') if rule_set_names.empty?
+
+        # Allow projects to be 'disabled' by emptying rule sets
+        #errors.add(:rule_sets, 'must include at least one rule set') if rule_set_names.empty?
 
         all_sets_names = RuleSets.select(:name).collect { |r| r[:name] }
         rule_set_names.each do |set_name|
