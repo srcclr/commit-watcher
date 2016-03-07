@@ -26,7 +26,7 @@ Dir["#{File.dirname(__FILE__)}/../lib/**/*.rb"].each { |f| require f }
 
 RSpec.configure do |config|
   config.around(:each) do |example|
-    Sequel::DATABASES.first.transaction(rollback: :always, auto_savepoint: true){ example.run }
+    Sequel::DATABASES.first.transaction(rollback: :always, auto_savepoint: true) { example.run }
   end
 
   # RSpec Rails can automatically mix in different behaviours to your tests
