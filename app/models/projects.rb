@@ -8,7 +8,7 @@ class Projects < Sequel::Model
 
     validates_presence [:name, :rule_sets]
     validates_unique :name
-    validates_min_length 3, :name, message: -> (s) { "must be more than #{s} characters" }
+    validates_min_length 3, :name, message: -> (s) { "of project must be more than #{s} characters" }
 
     begin
         rule_set_names = JSON.parse(rule_sets)
