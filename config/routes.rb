@@ -12,7 +12,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :configurations
       resources :projects
-      resources :commits
+      resources :commits do
+        collection do
+          get 'wipe'
+        end
+      end
       resources :rule_sets
       resources :rules
     end
