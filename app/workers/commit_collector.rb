@@ -1,4 +1,4 @@
-require_relative 'auditor'
+require_relative 'commit_auditor'
 require_relative "#{Rails.root}/lib/github_api"
 
 class CommitCollector

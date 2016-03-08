@@ -4,7 +4,7 @@ require 'activesupport/json_encoder'
 require_relative "#{Rails.root}/lib/github_api"
 require_relative "#{Rails.root}/lib/rules/rule_auditor"
 
-class Auditor
+class CommitAuditor
     include Sidekiq::Worker
     sidekiq_options :queue => :audit_commits
 

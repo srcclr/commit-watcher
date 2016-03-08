@@ -10,7 +10,7 @@ require 'sprockets/railtie'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module CommitAuditor
+module CommitWatcher
   class Application < Rails::Application
 
     Sequel::Database.extension :pagination
