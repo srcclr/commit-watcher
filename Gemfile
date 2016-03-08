@@ -71,8 +71,11 @@ group :development, :test do
   # Tests
   gem 'rspec', '~> 3.4.0'
   gem 'rspec-rails', '~> 3.4.0'
+  gem 'factory_girl_rails'
+  gem 'faker'
 
   # Create hashes that look like classes with methods
   gem 'hash_dot'
+
 end
 

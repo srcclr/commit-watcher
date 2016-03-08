@@ -13,6 +13,8 @@ Bundler.require(*Rails.groups)
 module CommitAuditor
   class Application < Rails::Application
 
+    Sequel::Database.extension :pagination
+
     config.web_console.development_only = false
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
