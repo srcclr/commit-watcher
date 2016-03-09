@@ -1,6 +1,5 @@
-
 1:
-  :name: 'filename'
+  :name: 'filename_pattern'
   :requires_diff: true
   :description: 'Regular expression for a filename'
 2:
@@ -18,12 +17,12 @@
 5:
   :name: 'author_pattern'
   :requires_diff: false
-  :description: 'Regular expression for a commit author name, normalied to "name <email>"'
+  :description: 'Regular expression for a commit author name, normalized to "name <email>"'
 6:
-  :name: 'expression'
-  :requires_diff: true
-  :description: 'Boolean expression referencing one or more rules'
-7:
   :name: 'commit_pattern'
   :requires_diff: true
   :description: 'Combination of code_pattern and message_pattern'
+7:
+  :name: 'expression'
+  :requires_diff: true
+  :description: 'Boolean expression referencing one or more rules'

@@ -29,9 +29,9 @@ describe RuleAuditor do
             }
         }
 
-        context 'with filename rule' do
+        context 'with filename_pattern rule' do
             let(:commit) { nil }
-            let(:rule_type_id) { RuleTypes.select { |_, v| v[:name] == 'filename' }.keys.first }
+            let(:rule_type_id) { RuleTypes.select { |_, v| v[:name] == 'filename_pattern' }.keys.first }
             let(:rule_value) { 'herpy.java' }
 
             context 'with matching diff' do

@@ -8,7 +8,7 @@ class RuleAuditor
         case rule_type_id
         when 1
             return unless diff
-            audit_filename(Regexp.new(rule_value), diff)
+            audit_filename_pattern(Regexp.new(rule_value), diff)
         when 2
             return unless diff
             audit_changed_code_pattern(Regexp.new(rule_value), diff)
@@ -28,7 +28,7 @@ class RuleAuditor
 
 private
 
-    def self.audit_filename(pattern, diff)
+    def self.audit_filename_pattern(pattern, diff)
         filenames = diff.collect { |e| e.file }
         results = filenames.select { |e| e =~ pattern }
         results.empty? ? nil : results
