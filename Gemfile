@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.5.1'
+gem 'rails', '4.2.5.2'
 
 # Use mysql + sequel instead of ActiveRecord
 gem 'mysql2'
@@ -76,6 +76,4 @@ group :development, :test do
 
   # Create hashes that look like classes with methods
   gem 'hash_dot'
-
 end
-
