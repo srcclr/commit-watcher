@@ -19,10 +19,10 @@ class Projects < Sequel::Model
         all_sets_names = RuleSets.select(:name).collect { |r| r[:name] }
         rule_set_names.each do |set_name|
             next if all_sets_names.include?(set_name)
-            errors.add(:rule_sets, 'referenced rule set does not exist: #{set_name}')
+            errors.add(:rule_sets, "referenced rule set does not exist: #{set_name}")
         end
     rescue JSON::ParserError => e
-        errors.add(:rule_sets, 'invalid JSON value: #{rule_sets}')
+        errors.add(:rule_sets, "invalid JSON value: #{rule_sets} - #{e}")
     end
   end
 end

@@ -5,6 +5,7 @@ class RuleSets < Sequel::Model
 
   def validate
     super
+
     validates_presence [:name, :rules]
     validates_unique :name
     validates_min_length 3, :name, message: -> (s) { "of rule set must be more than #{s} characters" }
@@ -16,10 +17,10 @@ class RuleSets < Sequel::Model
         all_rule_names = Rules.select(:name).collect { |r| r[:name] }
         rule_names.each do |rule_name|
             next if all_rule_names.include?(rule_name)
-            errors.add(:rules, 'referenced rule does not exist: #{rule_name}')
+            errors.add(:rules, "referenced rule does not exist: #{rule_name}")
         end
     rescue JSON::ParserError => e
-        errors.add(:rules, 'invalid JSON value: #{rules}')
+        errors.add(:rules, "invalid JSON value: #{rules} - #{e}")
     end
   end
 end
