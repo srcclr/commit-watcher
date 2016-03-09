@@ -129,7 +129,7 @@ describe RuleAuditor do
 
         context 'with expression rule' do
             let(:rule_type_id) { RuleTypes.select { |_, v| v[:name] == 'expression' }.keys.first }
-            let(:filename_id) { RuleTypes.select { |_, v| v[:name] == 'filename' }.keys.first }
+            let(:filename_id) { RuleTypes.select { |_, v| v[:name] == 'filename_pattern' }.keys.first }
             let(:rule1) { { name: 'rule1', rule_type_id: filename_id, value: '\.txt\z' } }
             let(:rule2) { { name: 'rule2', rule_type_id: filename_id, value: '\.java\z' } }
             let(:rules) { double('Rules') }

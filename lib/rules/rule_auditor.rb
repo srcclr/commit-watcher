@@ -20,9 +20,9 @@ class RuleAuditor
         when 5
             audit_author_pattern(commit, Regexp.new(rule_value))
         when 6
-            audit_expression(commit, rule_value, diff)
-        when 7
             audit_commit_pattern(commit, Regexp.new(rule_value), diff)
+        when 7
+            audit_expression(commit, rule_value, diff)
         end
     end
 
