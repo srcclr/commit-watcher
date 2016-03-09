@@ -17,8 +17,6 @@ class RuleSetsController < ApplicationController
     rescue Sequel::DatabaseError => e
       render 'new'
     end
-
-    redirect_to action: 'index'
   end
 
   def update
