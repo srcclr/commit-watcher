@@ -51,30 +51,33 @@ private
             end
             next if changed_lines.empty?
 
-            in_changed_range = false
             index_offset = 0
+            found = []
             matches.each do |match|
-                # If regex contained groups, match could be an array
+                # Match could be an array if regex had groups
                 match = match.join if match.is_a?(Array)
                 start_offset = d.body.index(match, index_offset)
                 end_offset = start_offset + match.length
                 index_offset = end_offset
+
                 changed_ranges.each do |(change_start, change_end)|
                     next if start_offset >= change_end
                     next if end_offset <= change_start
 
-                    in_changed_range = true
-                    break
+                    frame_start_offset = [start_offset - 200, 0].max
+                    frame_end_offset = [end_offset + 200, d.body.size].min
+                    found << d.body[frame_start_offset..frame_end_offset]
                 end
-                break if in_changed_range
             end
-            next unless in_changed_range
+            next if found.empty?
 
-            results << {
-                file: d.file,
-                body: d.body,
-                changed_lines: changed_lines,
-            }
+            found.each do |f|
+                puts "found size: #{f.size}"
+                results << {
+                    file: d.file,
+                    body: f,
+                }
+            end
         end
         results.empty? ? nil : results
     end
@@ -82,11 +85,29 @@ private
     def self.audit_code_pattern(pattern, diff)
         results = []
         diff.each do |d|
-            next unless d.body =~ pattern
-            results << {
-                file: d.file,
-                body: d.body,
-            }
+            matches = d.body.scan(pattern)
+            next if matches.empty?
+
+            index_offset = 0
+            found = []
+            matches.each do |match|
+                # Match could be an array if regex had groups
+                match = match.join if match.is_a?(Array)
+                start_offset = d.body.index(match, index_offset)
+                end_offset = start_offset + match.length
+                index_offset = end_offset
+
+                frame_start_offset = [start_offset - 200, 0].max
+                frame_end_offset = [end_offset + 200, d.body.size].min
+                found << d.body[frame_start_offset..frame_end_offset]
+            end
+
+            found.each do |f|
+                results << {
+                    file: d.file,
+                    body: f,
+                }
+            end
         end
         results.empty? ? nil : results
     end
