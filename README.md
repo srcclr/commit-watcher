@@ -19,7 +19,7 @@ Then setup some Rails secrets and passwords:
 
 ```bash
 figaro install
-echo "COMMIT_WATCHER_DATABASE_PASSWORD: 'choose_a_password'" >> config/application.yml
+echo "COMMIT_WATCHER_DATABASE_PASSWORD: 'changeme123'" >> config/application.yml
 echo "SECRET_KEY_BASE: `rake secret`" >> config/application.yml
 ```
 
@@ -48,6 +48,13 @@ bundle exec sidekiq
 ### Running with Docker
 
 First, change the root and user passwords in [`.env.db`](.env.db).
+```
+# Not used but should set one for security.
+MYSQL_ROOT_PASSWORD=changeme123
+
+# This is for the commit_watcher user.
+MYSQL_PASSWORD=changeme123
+```
 
 Second, modify [`configs/database.yml`](configs/database.yml) by commenting out `socket` in favor of `host`, like this:
 
@@ -77,6 +84,12 @@ Stop Docker with `Ctrl+C` so the database can be setup with:
 
 ```bash
 docker-compose run web bundle exec rake db:schema:load db:seed
+```
+
+Now start everything up again with:
+
+```bash
+docker-compose up
 ```
 
 ## Use
