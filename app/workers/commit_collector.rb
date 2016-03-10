@@ -19,7 +19,7 @@ class CommitCollector
         return if commits.size == 0
 
         commits.each do |c|
-            Auditor.perform_async(project_id, c.to_json, rules, github_token)
+            CommitAuditor.perform_async(project_id, c.to_json, rules, github_token)
         end
 
         last_commit_time = commits.collect { |e| Time.parse(e['commit']['author']['date']) }.max

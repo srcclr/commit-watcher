@@ -3,7 +3,7 @@ Configurations.create(name: 'default', audit_frequency: 24 * 60, github_token: '
 rules = [
     {
         name: 'strong_vuln_patterns',
-        rule_type_id: 7,
+        rule_type_id: 6,
         value: '(?i)(advisory|attack|\bCVE\b|exploit|\bPOC\b|proof.of.concept|victim|\bvuln|\bRCE\b|remote.code.execution|\bDOS\b|denial.of.service)',
         description: 'Likely to indicate vulnerability'
     },
@@ -21,7 +21,7 @@ rules = [
     },
     {
         name: 'medium_vuln_patterns',
-        rule_type_id: 7,
+        rule_type_id: 6,
         value: '(?i)(insecure|\bsecure|\bsecurity|expose|exposing|RFC\d{4,5}|infinite loop|compliant|privelage|\bescalat|(de)?serializ)',
         description: 'Keywords sometimes associated with vulns'
     },
@@ -33,7 +33,7 @@ rules = [
     },
     {
         name: 'high_profile',
-        rule_type_id: 6,
+        rule_type_id: 7,
         value: 'strong_vuln_patterns && !non_code_file',
         description: 'Strong vuln pattern but not in a non code file'
     },
