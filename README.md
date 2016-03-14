@@ -8,6 +8,12 @@ Commit Watcher is intended to be an API accessible backend service. The UI is on
 
 ## Setup
 
+Install mysql. On Mac, with brew, you can do that with this command:
+
+```bash
+brew install mysql
+```
+
 Install gem dependencies:
 
 ```bash
