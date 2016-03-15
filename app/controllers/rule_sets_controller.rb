@@ -32,10 +32,10 @@ class RuleSetsController < ApplicationController
   end
 
   def destroy
-    @rule_set = Rules[id: params[:id].to_i]
+    @rule_set = RuleSets[id: params[:id].to_i]
     @rule_set.destroy
 
-    redirect_to rule_set_path
+    redirect_to rule_sets_path
   end
 
 private

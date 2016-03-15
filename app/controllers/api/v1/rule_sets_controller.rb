@@ -30,7 +30,7 @@ class API::V1::RuleSetsController < ApplicationController
   end
 
   def destroy
-    @rule_set = Rules[id: params[:id].to_i]
+    @rule_set = RuleSets[id: params[:id].to_i]
     @rule_set.destroy
     render json: { status: 'ok', message: 'rule set destroyed' }
   end
