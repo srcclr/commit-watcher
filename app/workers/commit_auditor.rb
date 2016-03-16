@@ -6,7 +6,7 @@ require_relative "#{Rails.root}/lib/rules/rule_auditor"
 
 class CommitAuditor
     include Sidekiq::Worker
-    sidekiq_options :queue => :audit_commits
+    sidekiq_options queue: :audit_commits
 
     def perform(project_id, commit, rules, github_token)
         commit = JSON.parse(commit, symbolize_names: true)

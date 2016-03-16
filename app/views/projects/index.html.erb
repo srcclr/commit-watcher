@@ -5,6 +5,7 @@
 <%= link_to 'New Project', new_project_path %>
 <table border="1" cellpadding="10">
   <tr>
+    <th>Id</th>
     <th>Name</th>
     <th>Rule Sets</th>
     <th>Next Audit</th>
@@ -15,6 +16,7 @@
 
   <% @projects.each do |project| %>
     <tr>
+      <td><%= project.id %></td>
       <td><%= project.name %></td>
       <td><%= project.rule_sets %></td>
       <td><%= project.next_audit %></td>

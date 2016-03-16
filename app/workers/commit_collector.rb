@@ -3,14 +3,14 @@ require_relative "#{Rails.root}/lib/github_api"
 
 class CommitCollector
     include Sidekiq::Worker
-    sidekiq_options :queue => :collect_commits
+    sidekiq_options queue: :collect_commits
 
     COMMITS_URL = 'https://api.github.com/repos/%s/commits'
 
     def perform(project_id, project_name, last_commit_time, audit_frequency, rules, github_token)
         # Set next audit immediately to avoid re-enqueueing.
         next_audit = Time.now.to_i + audit_frequency
-        Projects[:id => project_id].update(:next_audit => next_audit)
+        Projects[id: project_id].update(next_audit: next_audit)
 
         Rails.logger.debug "Collecting commits for #{project_name}"
         last_commit_time = Time.parse(last_commit_time)
@@ -23,7 +23,7 @@ class CommitCollector
         end
 
         last_commit_time = commits.collect { |e| Time.parse(e['commit']['author']['date']) }.max
-        Projects[:id => project_id].update(:last_commit_time => last_commit_time)
+        Projects[id: project_id].update(last_commit_time: last_commit_time)
     end
 
     def collect_commits(project_name, last_commit_time, github_token)

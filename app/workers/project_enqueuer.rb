@@ -4,12 +4,12 @@ require_relative '../models/projects'
 
 class ProjectEnqueuer
     include Sidekiq::Worker
-    sidekiq_options :queue => :enqueue_projects
+    sidekiq_options queue: :enqueue_projects
 
     def perform
         projects = Projects.where { next_audit <= Time.now.to_i }
         return if projects.empty?
-        config = Configurations[:name => 'default']
+        config = Configurations[name: 'default']
 
         enqueue_projects(projects, config[:audit_frequency], config[:github_token])
     end
