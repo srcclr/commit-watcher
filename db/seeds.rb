@@ -3,9 +3,9 @@ Configurations.create(name: 'default', audit_frequency: 24 * 60, github_token: '
 rules = [
     {
         name: 'strong_vuln_patterns',
-        rule_type_id: 6,
-        value: '(?i)(advisory|attack|\bCVE\b|exploit|\bPOC\b|proof.of.concept|victim|\bvuln|\bRCE\b|remote.code.execution|\bDOS\b|denial.of.service)',
-        description: 'Likely to indicate vulnerability'
+        rule_type_id: 4,
+        value: '(?i)(advisory|attack|(un)?authoriz(e|ation)|clickjack|crack|cross.site|csrf|\bCVE\b|deadlock|denial.of.service|\bEOP\b|exploit|hack|hijack|infinite.loop|malicious|\bNVD\b|OSVDB|\bPoC\b|proof.of.concept|\bRCE\b|\bReDoS\b|remote.code.execution|security|victim|\bvuln|\bXEE\b|\bXSRF\b|\bXSS\b|\bXXE\b)',
+        description: 'Strong indication of a security fix'
     },
     {
         name: 'markdown_file',
@@ -21,15 +21,15 @@ rules = [
     },
     {
         name: 'medium_vuln_patterns',
-        rule_type_id: 6,
-        value: '(?i)(insecure|\bsecure|\bsecurity|expose|exposing|RFC\d{4,5}|infinite loop|compliant|privelage|\bescalat|(de)?serializ)',
-        description: 'Keywords sometimes associated with vulns'
+        rule_type_id: 4,
+        value: '(?i)(authenticat(e|ion)|brute force|bypass|constant.time|credential|\bDoS\b|expos(e|ing)|harden|injection|lockout|overflow|password|poison|privelage|\b(in)?secur(e|ity)|(de)?serializ|spoof|timing|traversal)',
+        description: 'Moderate indication of a security fix'
     },
     {
         name: 'weak_vuln_patterns',
         rule_type_id: 4,
-        value: '(?i)(\bweak|\bcrypto|escalate)',
-        description: 'Weakly associated with vulns'
+        value: '(?i)(abuse|compliant|constant.time|credential|\bcrypto|escalate|exhaustion|forced|infinite|RFC\d{4,5})',
+        description: 'Weakly associated with security fixes'
     },
     {
         name: 'high_profile',
