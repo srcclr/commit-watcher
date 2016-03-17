@@ -60,7 +60,6 @@ describe RuleAuditor do
                         {
                             file: patch_derpy_java.file,
                             body: patch_derpy_java.body,
-                            changed_lines: [patch_derpy_java.changed_lines.first.content],
                         }
                     ]
                 }
