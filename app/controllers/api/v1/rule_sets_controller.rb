@@ -38,6 +38,9 @@ class API::V1::RuleSetsController < ApplicationController
 private
 
   def rule_set_params
-    params.require(:rule_set).permit(:name, :rules, :description)
+    params.require(:name)
+    params.require(:rules)
+    params.require(:description)
+    params.permit(:name, :rules, :description)
   end
 end

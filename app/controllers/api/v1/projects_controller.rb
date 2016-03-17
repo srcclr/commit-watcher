@@ -1,4 +1,6 @@
 class API::V1::ProjectsController < ApplicationController
+  protect_from_forgery with: :null_session
+
   def index
     @projects = Projects
     render json: @projects
@@ -38,10 +40,16 @@ class API::V1::ProjectsController < ApplicationController
 private
 
   def create_project_params
-    params.require(:project).permit(:name, :rule_sets)
+    params.require(:name)
+    params.require(:rule_sets)
+    params.permit(:name, :rule_sets)
   end
 
   def update_project_params
-    params.require(:project).permit(:name, :rule_sets, :next_audit, :last_commit_time)
+    params.require(:name)
+    params.require(:rule_sets)
+    params.require(:next_audit)
+    params.require(:last_commit_time)
+    params.permit(:name, :rule_sets, :next_audit, :last_commit_time)
   end
 end

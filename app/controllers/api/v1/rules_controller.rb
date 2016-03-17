@@ -38,6 +38,10 @@ class API::V1::RulesController < ApplicationController
 private
 
   def rule_params
-    params.require(:rule).permit(:name, :rule_type_id, :value, :description)
+    params.require(:name)
+    params.require(:rule_type_id)
+    params.require(:value)
+    params.require(:description)
+    params.permit(:name, :rule_type_id, :value, :description)
   end
 end

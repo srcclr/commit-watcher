@@ -17,6 +17,9 @@ class API::V1::ConfigurationsController < ApplicationController
 private
 
   def configuration_params
-    params.require(:configuration).permit(:name, :audit_frequency, :github_token)
+    params.require(:name)
+    params.require(:audit_frequency)
+    params.require(:github_token)
+    params.permit(:name, :audit_frequency, :github_token)
   end
 end
