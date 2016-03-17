@@ -7,7 +7,7 @@ class GitHubAPI
         json = []
         loop do
             response = request_raw(uri, github_token, params)
-            json += JSON.parse(response.read_body)
+            json += JSON.parse(response.read_body, symbolize_names: true)
             break unless response['Link']
 
             # Link: <https://api.github.com/repositories/15958676/commits?page=3>; rel="next", <https://api.github.com/repositories/15958676/commits?page=1>; rel="first", <https://api.github.com/repositories/15958676/commits?page=1>; rel="prev"

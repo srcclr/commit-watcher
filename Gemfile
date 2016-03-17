@@ -47,6 +47,9 @@ gem "sidekiq-cron", "~> 0.4.2"
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Handling local, temporary clones of git repos
+gem 'git'
+
 # Parse diffs from GitHub
 gem 'git_diff_parser'
 

@@ -72,7 +72,6 @@ private
             next if found.empty?
 
             found.each do |f|
-                puts "found size: #{f.size}"
                 results << {
                     file: d.file,
                     body: f,
