@@ -1,4 +1,4 @@
-Configurations.create(name: 'default', audit_frequency: 24 * 60, github_token: '')
+Configurations.create(name: 'default', audit_frequency: 24 * 60 * 60, github_token: '')
 
 rules = [
     {
@@ -32,14 +32,21 @@ rules = [
         description: 'Weakly associated with security fixes'
     },
     {
-        name: 'high_profile',
+        name: 'sensitive_patterns',
+        rule_type_id: 6,
+        value: '(?i)(security|crypto|password|token|aws)',
+        description: 'Code keywords which may be sensitive'
+    },
+    {
+        name: 'sensnitive_code_patterns',
         rule_type_id: 7,
-        value: 'strong_vuln_patterns && !non_code_file',
+        value: 'sensitive_patterns && !non_code_file',
         description: 'Strong vuln pattern but not in a non code file'
     },
 ]
 rules.each { |r| Rules.create(r) }
 
-RuleSets.create(name: 'global', rules: ['high_profile'].to_json, description: 'Global rule set')
+RuleSets.create(name: 'vulns', rules: ['strong_vuln_patterns'].to_json, description: 'For finding vulnerabilities')
+RuleSets.create(name: 'sensitive', rules: ['sensnitive_code_patterns'].to_json, description: 'For finding commits which change sensitive code')
 
-Projects.create(name: 'srcclr/commit_watcher', rule_sets: ['global'].to_json)
+Projects.create(name: 'srcclr/commit_watcher', rule_sets: ['vulns'].to_json)
