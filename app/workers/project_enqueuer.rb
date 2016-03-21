@@ -8,40 +8,47 @@ class ProjectEnqueuer
   sidekiq_options queue: :enqueue_projects
 
   def perform
-    projects = Projects.where { next_audit <= Time.now.to_i }
+    projects = Projects.where {
+      (next_audit <= Time.now.to_i) &
+      (rule_sets !~ nil) &
+      (rule_sets !~ '[]') &
+      ((last_commit_time =~ nil) |
+      (last_commit_time >= Time.at(0)))
+    }
     return if projects.empty?
     config = Configurations[name: 'default']
 
     enqueue_projects(projects, config[:audit_frequency], config[:github_token])
   end
 
+  private
+
   def enqueue_projects(projects, audit_frequency, github_token)
-    projects.each do |p|
-      next unless p[:rule_sets]
+    projects.each do |project|
+      rule_sets = get_rules(JSON.parse(project[:rule_sets]))
 
       # Update next_audit immediately to avoid re-enqueueing.
       next_audit = Time.now.to_i + audit_frequency
-      Projects[id: p[:id]].update(next_audit: next_audit)
+      project.update(next_audit: next_audit)
 
-      rules = get_rules(JSON.parse(p[:rule_sets]))
-      last_commit_time = p[:last_commit_time] || Time.at(0)
-
+      last_commit_time = project[:last_commit_time] || Time.at(0)
       if last_commit_time == Time.at(0)
-        # First time a project is audited, clone it locally since it
-        # may be huge, and we don't want to hit our GitHub API request
-        # limit too hard.
+        # Ensure this project isn't initially audited again until it's finished
+        project.update(last_commit_time: Time.at(-1))
+
+        # First time a project is audited, clone it locally to avoid
+        # using up our GitHub API limits.
         InitialAuditor.perform_async(
-          p[:id],
-          p[:name],
-          rules.to_json,
-          github_token
+          project[:id],
+          project[:name],
+          rule_sets.to_json
         )
       else
         CommitCollector.perform_async(
-          p[:id],
-          p[:name],
+          project[:id],
+          project[:name],
           last_commit_time,
-          rules.to_json,
+          rule_sets.to_json,
           github_token
         )
       end
@@ -50,7 +57,7 @@ class ProjectEnqueuer
 
   def get_rules(rule_set_names)
     rule_sets = RuleSets.where(name: rule_set_names).to_hash
-    rule_names = rule_sets.values.collect { |e| JSON.parse(e[:rules]) }.flatten.sort.uniq
+    rule_names = rule_sets.values.collect { |s| JSON.parse(s[:rules]) }.flatten.sort.uniq
     Rules.where(name: rule_names).select(:name, :rule_type_id, :value)
   end
 end
