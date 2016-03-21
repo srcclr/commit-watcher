@@ -8,6 +8,7 @@ class Projects < Sequel::Model
 
     validates_presence [:name, :rule_sets]
     validates_unique :name
+    validates_format %r|\A[a-z\d][\w\-]{0,38}/[\w\-]{0,60}|i, :name
     validates_min_length 3, :name, message: -> (s) { "of project must be more than #{s} characters" }
 
     begin
