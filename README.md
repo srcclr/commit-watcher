@@ -8,11 +8,18 @@ Commit Watcher is intended to be an API accessible backend service. The UI is on
 
 ## Setup
 
-Install mysql. On Mac, with brew, you can do that with this command:
+Install MySQL. On Mac, with Brew, you can do that with this command:
 
 ```bash
 brew install mysql
 ```
+
+Install Redis similarly:
+```bash
+brew install redis
+```
+
+For both of the above commands, be sure and follow the instructions brew gives you so the services are started properly.
 
 Install gem dependencies:
 
@@ -62,7 +69,7 @@ MYSQL_ROOT_PASSWORD=changeme123
 MYSQL_PASSWORD=changeme123
 ```
 
-Second, modify [`configs/database.yml`](configs/database.yml) by commenting out `socket` in favor of `host`, like this:
+Second, modify [`config/database.yml`](config/database.yml) by commenting out `socket` in favor of `host`, like this:
 
 ```yaml
   # Use this for local mysql instances

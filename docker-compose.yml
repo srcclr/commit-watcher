@@ -6,6 +6,7 @@ web:
     - '3000:3000'
   links:
     - db
+    - redis
   env_file:
     - '.env.web'
 db:
@@ -14,3 +15,7 @@ db:
     - '13306:3306'
   env_file:
     - '.env.db'
+redis:
+  image: library/redis:3.0.7
+  ports:
+    - '6379:6379'
