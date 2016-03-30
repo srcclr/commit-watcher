@@ -6,7 +6,11 @@ class API::V1::CommitsController < ApplicationController
     page_size = (params[:size] || 100).to_i
 
     begin
-      content = Commits.dataset.paginate(page_no, page_size)
+      if params[:project_id]
+        content = Commits.where(project_id: params[:project_id].to_i).paginate(page_no, page_size)
+      else
+        content = Commits.dataset.paginate(page_no, page_size)
+      end
       @commits = { page: page_no, page_size: page_size }
       @commits[:next_page] = content.next_page if content.next_page
       @commits[:content] = content
