@@ -14,7 +14,7 @@ Sequel.migration do
       column :name, "varchar(200)", :default=>"", :null=>false
       column :rule_sets, "varchar(200)", :default=>"", :null=>false
       column :next_audit, "int(11) unsigned", :default=>0, :null=>false
-      column :last_commit_time, "datetime", :null=>true
+      column :last_commit_time, "datetime"
       column :date_created, "timestamp", :default=>Sequel::CURRENT_TIMESTAMP, :null=>false
 
       index [:name], :name=>:name, :unique=>true
@@ -41,7 +41,7 @@ Sequel.migration do
 
     create_table(:commits) do
       primary_key :id, :type=>"int(11) unsigned"
-      foreign_key :project_id, :projects, :type=>"int(11) unsigned", :null=>false, :key=>[:id]
+      foreign_key :project_id, :projects, :type=>"int(11) unsigned", :null=>false, :key=>[:id], :on_delete=>:cascade
       column :commit_date, "datetime", :null=>false
       column :commit_hash, "char(40)", :null=>false
       column :audit_results, "longtext", :null=>false
