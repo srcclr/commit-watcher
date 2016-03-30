@@ -47,7 +47,7 @@ class InitialAuditor
         end
       end
     ensure
-      FileUtils.remove_entry_secure(tmpdir)
+      FileUtils.remove_entry_secure(tmpdir) if File.exist?(tmpdir)
     end
 
     # Sometimes commits don't have all information
@@ -66,7 +66,9 @@ private
 
   def clone(project_name, dir)
     cmd = "git clone --no-checkout --quiet https://anon:anon@github.com/#{project_name} #{dir}"
-    `#{cmd}`
+    result = `#{cmd} 2>&1`
+    fail result if $?.exitstatus != 0
+
     Git.open(dir)
   end
 
