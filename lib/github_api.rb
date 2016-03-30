@@ -42,7 +42,7 @@ class GitHubAPI
 
     response = nil
     loop do
-      Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
+      Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
         request = Net::HTTP::Get.new(uri)
         request['Authorization'] = "token #{github_token}"
         headers.each { |k,v| request[k] = v }
@@ -53,7 +53,7 @@ class GitHubAPI
       if being_rate_limited
         reset_time = Time.at(response['X-RateLimit-Reset'].to_i)
         sleep_duration = reset_time - Time.now
-        Rails.logger.debug "Rate limited by GitHub until #{reset_time} (#{sleep_duration} seconds)"
+        Rails.logger.debug "Rate limited until #{reset_time} (#{sleep_duration} seconds)"
         sleep(sleep_duration)
         next
       end
