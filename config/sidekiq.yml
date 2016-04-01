@@ -10,6 +10,7 @@ production:
   - collect_commits
   - enqueue_projects
   - initial_audits
+  - push_commits
 :limits:
   initial_audits: 1
   collect_commits: 3
