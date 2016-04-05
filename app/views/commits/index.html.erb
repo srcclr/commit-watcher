@@ -4,8 +4,9 @@
 
 <table border="1" cellpadding="10" style="table-layout:fixed;" >
   <tr>
-    <th width="150px">Project ID</th>
-    <th width="150px">Commit Hash</th>
+    <th width="75px">Project ID</th>
+    <th width="150px">Hash</th>
+    <th width="80px">GitHub</th>
     <th width="180px">Commit Date</th>
     <th width="180px">Date Created</th>
     <th>Audit Results</th>
@@ -15,6 +16,7 @@
     <tr>
       <td><%= commit.project_id %></td>
       <td><%= link_to commit.commit_hash, commit_path(commit.id) %></td>
+      <td><%= link_to 'commit', "https://www.github.com/#{commit[:name]}/commit/#{commit.commit_hash}", target: '_blank' %></td>
       <td><%= commit.commit_date %></td>
       <td><%= commit.date_created %></td>
       <td><pre><%= commit.audit_results %></pre></td>

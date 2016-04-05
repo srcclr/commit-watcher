@@ -8,6 +8,11 @@
 </p>
 
 <p>
+  <strong>GitHub:</strong>
+  <%= link_to 'commit', "https://www.github.com/#{@commit[:name]}/commit/#{@commit.commit_hash}", target: '_blank' %>
+</p>
+
+<p>
   <strong>Commit Date:</strong>
   <%= @commit.commit_date %>
 </p>
