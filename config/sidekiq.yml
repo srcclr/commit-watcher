@@ -12,5 +12,5 @@ production:
   - initial_audits
   - push_commits
 :limits:
-  initial_audits: 2
+  initial_audits: 1
   collect_commits: 3
