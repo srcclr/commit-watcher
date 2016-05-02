@@ -17,14 +17,15 @@ limitations under the License.
 =end
 
 require 'optparse'
+require 'json'
 
 options = {
-  endpoint: 'api.my_app.dev:3000/v1/projects',
+  endpoint: 'api.my_app.dev:3000/v1/rules',
 }
 
 optparse = OptionParser.new do |opts|
-  banner = "This tool imports GitHub projects from a file with a list.\n"
-  banner << "Usage: #{File.basename(__FILE__)} [opts] <repository list file>"
+  banner = "Imports rules stored in JSON format.\n"
+  banner << "Usage: #{File.basename(__FILE__)} [opts] <json rules file>"
   opts.banner = banner
   opts.on('-h', '--help', 'Display this screen') do
     puts opts
@@ -39,7 +40,7 @@ end
 optparse.parse!
 
 if ARGV.size < 1
-  puts "Missing repository list file!"
+  puts "Missing json rules file!"
   puts optparse.help
   exit(-1)
 end
@@ -47,14 +48,16 @@ end
 filename = ARGV.first
 fail "#{filename} does not exist" unless File.exist?(filename)
 
-data = '--data "name=%s&rule_sets=[\"vulns\"]"'
+data = '--data "name=\"%s\"&rule_type_id=%s&value=\"%s\"&description=\"%s\""'
 base_cmd = "curl -v http://#{options[:endpoint]} #{data}"
 
-# Lines should be of the form OWNER/PROJECT_NAME
-# E.g. srcclr/commit-watcher
-IO.readlines(filename).each do |line|
-    name = line.rstrip
-    cmd = base_cmd % name
-    #puts cmd
-    `#{cmd}`
+rules = IO.read(filename)
+#fail "Empty rules file" if rules.empty?
+
+json = JSON.parse(rules.rstrip, symbolize_names: true)
+json.each do |rule|
+  puts rule
+  cmd = base_cmd % [rule[:name], rule[:rule_type_id], rule[:value], rule[:description]]
+  #puts cmd
+  `#{cmd}`
 end

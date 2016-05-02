@@ -15,6 +15,8 @@ limitations under the License.
 =end
 
 class API::V1::RulesController < ApplicationController
+  protect_from_forgery with: :null_session
+
   def index
     @rules = Rules
     render json: @rules
