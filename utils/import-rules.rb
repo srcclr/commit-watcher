@@ -52,8 +52,6 @@ data = '--data "name=\"%s\"&rule_type_id=%s&value=\"%s\"&description=\"%s\""'
 base_cmd = "curl -v http://#{options[:endpoint]} #{data}"
 
 rules = IO.read(filename)
-#fail "Empty rules file" if rules.empty?
-
 json = JSON.parse(rules.rstrip, symbolize_names: true)
 json.each do |rule|
   puts rule
