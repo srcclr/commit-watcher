@@ -21,7 +21,7 @@ limitations under the License.
 <table class="pretty" border="1" cellpadding="10" style="table-layout:fixed;" >
   <tr>
     <th width="75px"><%= sortable 'project_id' %></th>
-    <th width="150px">Hash</th>
+    <th width="110px">Hash</th>
     <th width="80px">GitHub</th>
     <th width="110px">Status</th>
     <th width="180px"><%= sortable 'commit_date' %></th>
@@ -32,7 +32,7 @@ limitations under the License.
   <% @commits.each do |commit| %>
     <tr>
       <td><%= commit.project_id %></td>
-      <td><%= link_to commit.commit_hash, commit_path(commit.id) %></td>
+      <td><%= link_to commit.commit_hash[0..12], commit_path(commit.id) %></td>
       <td><%= link_to 'commit', "https://www.github.com/#{commit[:name]}/commit/#{commit.commit_hash}", target: '_blank' %></td>
       <td>
 <%= form_for :commit, url: commit_path(commit.id), method: :patch, remote: true, format: :js, authenticity_token: true do |f| %>
