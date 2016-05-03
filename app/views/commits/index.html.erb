@@ -18,13 +18,13 @@ limitations under the License.
 
 <p><%= link_to 'Dashboard', controller: 'dashboard' %></p>
 
-<table border="1" cellpadding="10" style="table-layout:fixed;" >
+<table class="pretty" border="1" cellpadding="10" style="table-layout:fixed;" >
   <tr>
-    <th width="75px">Project ID</th>
+    <th width="75px"><%= sortable 'project_id' %></th>
     <th width="150px">Hash</th>
     <th width="80px">GitHub</th>
-    <th width="180px">Commit Date</th>
-    <th width="180px">Date Created</th>
+    <th width="180px"><%= sortable 'commit_date' %></th>
+    <th width="180px"><%= sortable 'date_created' %></th>
     <th>Audit Results</th>
   </tr>
 
