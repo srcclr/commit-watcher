@@ -22,6 +22,10 @@ class CommitsController < ApplicationController
         .select_all(:commits)
         .select_append(:projects__name)
         .order(order_expr)
+
+    page = params[:page] ? params[:page].to_i : 1
+    results_per_page = 25
+    @commits = @commits.paginate(page, results_per_page)
   end
 
   def show
