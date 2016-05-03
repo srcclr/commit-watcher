@@ -19,6 +19,9 @@ class CommitsController < ApplicationController
     @commits = Commits.join(:projects, id: :project_id)
         .select_all(:commits)
         .select_append(:projects__name)
+
+    page = params[:page] ? params[:page].to_i : 1
+    @commits = @commits.paginate(page, 10)
   end
 
   def show
