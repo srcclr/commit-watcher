@@ -15,10 +15,13 @@ limitations under the License.
 =end
 
 class CommitsController < ApplicationController
+  helper_method :sort_column, :sort_direction
+
   def index
     @commits = Commits.join(:projects, id: :project_id)
         .select_all(:commits)
         .select_append(:projects__name)
+        .order(order_expr)
   end
 
   def show
@@ -28,5 +31,17 @@ class CommitsController < ApplicationController
         .select_append(:projects__name)
         .where(commits__id: id)
     @commit = ds.first
+  end
+
+  def order_expr
+    Sequel.send(sort_direction, sort_column.to_sym)
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
+  end
+
+  def sort_column
+    Commits.columns.include?(params[:order] && params[:order].to_sym) ? params[:order] : 'project_id'
   end
 end

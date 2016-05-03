@@ -7,3 +7,18 @@ table {
     border:1px solid;
     word-wrap:break-word;
 }
+
+.pretty th .current {
+  padding-right: 12px;
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 10px;
+}
+
+.pretty th .asc {
+  background-image: image-url('up_arrow.png');
+}
+
+.pretty th .desc {
+  background-image: image-url('down_arrow.png');
+}
