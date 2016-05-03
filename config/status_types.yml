@@ -1,0 +1,12 @@
+0:
+  :name: 'not triaged'
+  :description: 'Commit has not been triaged.'
+1:
+  :name: 'vulnerability'
+  :description: 'Commit has been triaged and appears to be a vulnerability.'
+2:
+  :name: 'not vulnerability'
+  :description: 'Commit has been triaged and does NOT appear to be a vulnerability.'
+3:
+  :name: 'unknown'
+  :description: 'Commit has been triaged but its super confusing and should be looked at later.'

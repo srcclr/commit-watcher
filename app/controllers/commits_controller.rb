@@ -28,6 +28,22 @@ class CommitsController < ApplicationController
     @commits = @commits.paginate(page, results_per_page)
   end
 
+  def update
+    @commit = Commits[id: params[:id].to_i]
+    begin
+      @commit.update(rule_params)
+    rescue Sequel::ValidationFailed
+      render 'index'
+    rescue Sequel::DatabaseError => e
+      render 'index'
+    end
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js { }
+    end
+  end
+
   def show
     id = params[:id].to_i
     ds = Commits.join(:projects, id: :project_id)
@@ -47,5 +63,11 @@ class CommitsController < ApplicationController
 
   def sort_column
     Commits.columns.include?(params[:order] && params[:order].to_sym) ? params[:order] : 'project_id'
+  end
+
+private
+
+  def rule_params
+    params.require(:commit).permit(:status_type_id)
   end
 end
