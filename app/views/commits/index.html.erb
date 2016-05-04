@@ -21,7 +21,7 @@ limitations under the License.
 <% statuses = StatusTypes.collect { |k, v| [v[:name], k] } %>
 
 <%= form_tag(url_for, method: 'get') do %>
-    <%= label_tag(:q, 'Status:') %>
+    <%= label_tag(:status, 'Status:') %>
     <%= select_tag(:status_type_id,
                    options_for_select(['All'] + statuses, params[:status_type_id]),
                    onChange: '$(this.form).submit();') %>
