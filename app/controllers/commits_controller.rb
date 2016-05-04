@@ -53,10 +53,6 @@ class CommitsController < ApplicationController
     @commit = ds.first
   end
 
-  def order_expr
-    Sequel.send(sort_direction, sort_column.to_sym)
-  end
-
   def sort_direction
     %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
   end
@@ -66,6 +62,9 @@ class CommitsController < ApplicationController
   end
 
 private
+  def order_expr
+    Sequel.send(sort_direction, sort_column.to_sym)
+  end
 
   def rule_params
     params.require(:commit).permit(:status_type_id)
