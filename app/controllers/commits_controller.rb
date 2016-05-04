@@ -25,6 +25,11 @@ class CommitsController < ApplicationController
 
     @commits = @commits.where(status_type_id: params[:status_type_id]) if valid_status_type?
 
+    if params[:audit_results_query]
+      query = '%' + params[:audit_results_query] + '%'
+      @commits = @commits.where{audit_results.like(query)}
+    end
+
     page = params[:page] ? params[:page].to_i : 1
     results_per_page = 25
     @commits = @commits.paginate(page, results_per_page)

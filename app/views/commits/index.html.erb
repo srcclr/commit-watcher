@@ -25,6 +25,9 @@ limitations under the License.
     <%= select_tag(:status_type_id,
                    options_for_select(['All'] + statuses, params[:status_type_id]),
                    onChange: '$(this.form).submit();') %>
+
+    <%= label_tag(:audit_results, 'Audit Results:') %>
+    <%= text_field_tag(:audit_results_query, params[:audit_results_query], placeholder: 'Contains text') %>
 <% end %>
 
 <table class="pretty" border="1" cellpadding="10" style="table-layout:fixed;" >
