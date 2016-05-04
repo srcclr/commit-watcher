@@ -23,9 +23,15 @@ class CommitsController < ApplicationController
         .select_append(:projects__name)
         .order(order_expr)
 
+    @commits = @commits.where(status_type_id: params[:status_type_id]) if valid_status_type?
+
     page = params[:page] ? params[:page].to_i : 1
     results_per_page = 25
     @commits = @commits.paginate(page, results_per_page)
+  end
+
+  def valid_status_type?
+    StatusTypes.keys.map(&:to_s).include?(params[:status_type_id])
   end
 
   def update

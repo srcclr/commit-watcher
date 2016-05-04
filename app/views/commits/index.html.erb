@@ -18,6 +18,15 @@ limitations under the License.
 
 <p><%= link_to 'Dashboard', controller: 'dashboard' %></p>
 
+<% statuses = StatusTypes.collect { |k, v| [v[:name], k] } %>
+
+<%= form_tag(url_for, method: 'get') do %>
+    <%= label_tag(:q, 'Status:') %>
+    <%= select_tag(:status_type_id,
+                   options_for_select(['All'] + statuses, params[:status_type_id]),
+                   onChange: '$(this.form).submit();') %>
+<% end %>
+
 <table class="pretty" border="1" cellpadding="10" style="table-layout:fixed;" >
   <tr>
     <th width="140px"><%= sortable 'project_id' %></th>
@@ -36,7 +45,7 @@ limitations under the License.
       <td><%= link_to 'commit', "https://www.github.com/#{commit[:name]}/commit/#{commit.commit_hash}", target: '_blank' %></td>
       <td>
 <%= form_for :commit, url: commit_path(commit.id), method: :patch, remote: true, format: :js, authenticity_token: true do |f| %>
-  <%= select('commit', 'status_type_id', StatusTypes.collect { |k, v| [v[:name], k] }, { selected: commit.status_type_id }, onChange: "$(this.form).submit();" ) %>
+  <%= select('commit', 'status_type_id', statuses, {selected: commit.status_type_id }, onChange: "$(this.form).submit();" ) %>
 <% end %>
       </td>
       <td><%= commit.commit_date %></td>
