@@ -23,9 +23,20 @@ class CommitsController < ApplicationController
         .select_append(:projects__name)
         .order(order_expr)
 
+    @commits = @commits.where(status_type_id: params[:status_type_id]) if valid_status_type?
+
+    if params[:audit_results_query]
+      query = '%' + params[:audit_results_query] + '%'
+      @commits = @commits.where{audit_results.like(query)}
+    end
+
     page = params[:page] ? params[:page].to_i : 1
     results_per_page = 25
     @commits = @commits.paginate(page, results_per_page)
+  end
+
+  def valid_status_type?
+    StatusTypes.keys.map(&:to_s).include?(params[:status_type_id])
   end
 
   def update
@@ -53,10 +64,6 @@ class CommitsController < ApplicationController
     @commit = ds.first
   end
 
-  def order_expr
-    Sequel.send(sort_direction, sort_column.to_sym)
-  end
-
   def sort_direction
     %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
   end
@@ -66,6 +73,9 @@ class CommitsController < ApplicationController
   end
 
 private
+  def order_expr
+    Sequel.send(sort_direction, sort_column.to_sym)
+  end
 
   def rule_params
     params.require(:commit).permit(:status_type_id)
