@@ -53,6 +53,11 @@ limitations under the License.
   </p>
 
   <p>
+    <%= f.label :notification_id %><br>
+    <%= f.select :notification_id, Notifications.all.collect { |e| [e.name, e.id] }, selected: @rule.notification_id, include_blank: true %>
+  </p>
+
+  <p>
     <%= f.submit %>
   </p>
 

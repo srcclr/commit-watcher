@@ -1,0 +1,9 @@
+    <h1>Commit Audit Notification</h1>
+    <p>
+      Commit Watcher has detected that commit hash <%= link_to "#{@commit_hash}", controller: 'commits', action: 'index', commit_hash: @commit_hash %>
+      of the project <%= @project_name %> has been detected.
+    </p>
+    <h2>Audit Results</h2>
+    <code>
+<%= JSON.pretty_generate(@audit_result) %>
+    </code>

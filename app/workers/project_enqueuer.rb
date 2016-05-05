@@ -74,6 +74,6 @@ class ProjectEnqueuer
   def get_rules(rule_set_names)
     rule_sets = RuleSets.where(name: rule_set_names).to_hash
     rule_names = rule_sets.values.collect { |s| JSON.parse(s[:rules]) }.flatten.sort.uniq
-    Rules.where(name: rule_names).select(:name, :rule_type_id, :value)
+    Rules.where(name: rule_names).select(:id, :name, :rule_type_id, :value, :notification_id)
   end
 end

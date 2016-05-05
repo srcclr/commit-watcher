@@ -24,19 +24,12 @@ class CommitsController < ApplicationController
         .order(order_expr)
 
     @commits = @commits.where(status_type_id: params[:status_type_id]) if valid_status_type?
-
-    if params[:audit_results_query]
-      query = '%' + params[:audit_results_query] + '%'
-      @commits = @commits.where{audit_results.like(query)}
-    end
+    @commits = @commits.where(Sequel.like(:commit_hash, "#{params[:commit_hash]}%")) if valid_commit_hash?
+    @commits = @commits.where(Sequel.like(:audit_results, "%#{params[:audit_results]}%")) if params[:audit_results]
 
     page = params[:page] ? params[:page].to_i : 1
     results_per_page = 25
     @commits = @commits.paginate(page, results_per_page)
-  end
-
-  def valid_status_type?
-    StatusTypes.keys.map(&:to_s).include?(params[:status_type_id])
   end
 
   def update
@@ -64,6 +57,8 @@ class CommitsController < ApplicationController
     @commit = ds.first
   end
 
+private
+
   def sort_direction
     %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
   end
@@ -72,7 +67,14 @@ class CommitsController < ApplicationController
     Commits.columns.include?(params[:order] && params[:order].to_sym) ? params[:order] : 'project_id'
   end
 
-private
+  def valid_status_type?
+    StatusTypes.keys.map(&:to_s).include?(params[:status_type_id])
+  end
+
+  def valid_commit_hash?
+    params[:commit_hash] && params[:commit_hash] =~ /\A[a-f0-9]+\z/i
+  end
+
   def order_expr
     Sequel.send(sort_direction, sort_column.to_sym)
   end

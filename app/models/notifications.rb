@@ -1,4 +1,4 @@
-<% if false %>
+=begin
 Copyright 2016 SourceClear Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,18 +12,15 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-<% end %>
+=end
 
-<h1>Dashboard</h1>
+class Notifications < Sequel::Model
+  plugin :validation_helpers
 
-<p><%= link_to 'Configurations', controller: 'configurations' %></p>
+  def validate
+    super
 
-<p><%= link_to 'Projects', controller: 'projects' %></p>
-
-<p><%= link_to 'Commits', controller: 'commits' %></p>
-
-<p><%= link_to 'Rules', controller: 'rules' %></p>
-
-<p><%= link_to 'Rule Sets', controller: 'rule_sets' %></p>
-
-<p><%= link_to 'Notifications', controller: 'notifications' %></p>
+    validates_presence [:name, :notification_type_id, :target]
+    validates_includes NotificationTypes.keys, :notification_type_id
+  end
+end

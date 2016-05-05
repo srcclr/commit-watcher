@@ -14,19 +14,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 =end
 
-class RulesController < ApplicationController
+class NotificationsController < ApplicationController
   def index
-    @rules = Rules
+    @notifications = Notifications
   end
 
   def edit
-    @rule = Rules[id: params[:id].to_i]
+    @notification = Notifications[id: params[:id].to_i]
   end
 
   def create
-    @rule = Rules.new(rule_params)
+    @notification = Notifications.new(notification_params)
     begin
-      @rule.save
+      @notification.save
       redirect_to action: 'index'
     rescue Sequel::ValidationFailed
       render 'new'
@@ -36,9 +36,9 @@ class RulesController < ApplicationController
   end
 
   def update
-    @rule = Rules[id: params[:id].to_i]
+    @notification = Notifications[id: params[:id].to_i]
     begin
-      @rule.update(rule_params)
+      @notification.update(notification_params)
       redirect_to action: 'index'
     rescue Sequel::ValidationFailed
       render 'edit'
@@ -48,15 +48,15 @@ class RulesController < ApplicationController
   end
 
   def destroy
-    @rule = Rules[id: params[:id].to_i]
-    @rule.destroy
+    @notification = notifications[id: params[:id].to_i]
+    @notification.destroy
 
-    redirect_to rules_path
+    redirect_to notifications_path
   end
 
 private
 
-  def rule_params
-    params.require(:rule).permit(:name, :rule_type_id, :value, :description, :notification_id)
+  def notification_params
+    params.require(:notification).permit(:name, :notification_type_id, :target)
   end
 end

@@ -15,9 +15,11 @@ class AuditResultsBuilder
             next unless audit_result
 
             audit_results << {
+                rule_id: r[:id],
                 rule_name: r[:name],
                 rule_type_id: r[:rule_type_id],
                 rule_value: r[:value],
+                notification_id: r[:notification_id],
                 audit_result: audit_result,
             }
         end

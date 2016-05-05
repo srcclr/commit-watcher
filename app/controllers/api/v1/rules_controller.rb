@@ -60,6 +60,6 @@ private
     params.require(:rule_type_id)
     params.require(:value)
     params.require(:description)
-    params.permit(:name, :rule_type_id, :value, :description)
+    params.permit(:name, :rule_type_id, :value, :description, :notification_id)
   end
 end

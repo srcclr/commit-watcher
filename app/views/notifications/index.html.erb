@@ -14,30 +14,26 @@ See the License for the specific language governing permissions and
 limitations under the License.
 <% end %>
 
-<h1>Rules</h1>
+<h1>Notifications</h1>
 
 <p><%= link_to 'Dashboard', controller: 'dashboard' %></p>
 
-<%= link_to 'New Rule', new_rule_path %>
+<%= link_to 'New Notification', new_notification_path %>
 <table border="1" cellpadding="10">
   <tr>
     <th>Name</th>
-    <th>Rule Type Id</th>
-    <th>Value</th>
-    <th>Description</th>
-    <th>Notification</th>
+    <th>Notification Type</th>
+    <th>Target</th>
     <th colspan="2"></th>
   </tr>
 
-  <% @rules.each do |rule| %>
+  <% @notifications.each do |notification| %>
     <tr>
-      <td><%= rule.name %></td>
-      <td><%= rule.rule_type_id %></td>
-      <td><code><%= rule.value %></code></td>
-      <td><%= rule.description %></td>
-      <td><%= rule.notification_id %></td>
-      <td><%= link_to 'Edit', edit_rule_path(rule.id) %></td>
-      <td><%= link_to 'Delete', rule_path(rule.id),
+      <td><%= notification.name %></td>
+      <td><%= "#{NotificationTypes[notification.notification_type_id][:name]} (#{notification.notification_type_id})" %></td>
+      <td><%= notification.target %></td>
+      <td><%= link_to 'Edit', edit_notification_path(notification.id) %></td>
+      <td><%= link_to 'Delete', notification_path(notification.id),
         method: :delete,
         data: { confirm: 'Really? Are you being serious right now?' } %></td>
     </tr>

@@ -57,7 +57,7 @@ class InitialAuditor
         next unless record
 
         begin
-          Commits.insert(record)
+          Commits.create(record)
         rescue Sequel::UniqueConstraintViolation
           Rails.logger.debug "Dropping duplicate commit: #{record}"
         end
