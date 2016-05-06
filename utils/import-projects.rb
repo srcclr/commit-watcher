@@ -20,6 +20,7 @@ require 'optparse'
 
 options = {
   endpoint: 'api.my_app.dev:3000/v1/projects',
+  rulesets: %w(vulns sensitive),
 }
 
 optparse = OptionParser.new do |opts|
@@ -35,6 +36,11 @@ optparse = OptionParser.new do |opts|
           "Endpoint URL, default=\"#{options[:endpoint]}\"") do |id|
     options[:endpoint] = id
   end
+
+  opts.on('-r', '--rulesets RULE_SET[,RULE_SET]',
+          "Rule sets for imported projects, default=\"#{options[:rulesets] * ','}\"") do |rulesets|
+    options[:rulesets] = rulesets
+  end
 end
 optparse.parse!
 
@@ -47,7 +53,8 @@ end
 filename = ARGV.first
 fail "#{filename} does not exist" unless File.exist?(filename)
 
-data = '--data "name=%s&rule_sets=[\"vulns\"]"'
+rulesets = options[:rulesets].inspect.inspect.tr(' ', '')
+data = "--data \"name=%s&rule_sets=#{rulesets}\""
 base_cmd = "curl -v http://#{options[:endpoint]} #{data}"
 
 # Lines should be of the form OWNER/PROJECT_NAME
@@ -55,6 +62,7 @@ base_cmd = "curl -v http://#{options[:endpoint]} #{data}"
 IO.readlines(filename).each do |line|
     name = line.rstrip
     cmd = base_cmd % name
+    puts "Importing #{line} ..."
     #puts cmd
     `#{cmd}`
 end
