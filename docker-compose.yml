@@ -9,6 +9,17 @@ web:
     - redis
   env_file:
     - '.env.web'
+  command: scripts/deploy
+sidekiq:
+  build: .
+  volumes:
+    - .:/myapp
+  links:
+    - db
+    - redis
+  env_file:
+    - '.env.web'
+  command: bundle exec sidekiq
 db:
   image: library/mysql:5.6.22
   ports:
