@@ -41,7 +41,7 @@ class ProjectEnqueuer
 
   def enqueue_projects(projects, audit_frequency, github_token)
     projects.each do |project|
-      rule_sets = get_rules(JSON.parse(project[:rule_sets]))
+      rules = get_rules(JSON.parse(project[:rule_sets]))
 
       # Update next_audit immediately to avoid re-enqueueing.
       next_audit = Time.now.to_i + audit_frequency
@@ -57,14 +57,14 @@ class ProjectEnqueuer
         InitialAuditor.perform_async(
           project[:id],
           project[:name],
-          rule_sets.to_json
+          rules.to_json
         )
       else
         CommitCollector.perform_async(
           project[:id],
           project[:name],
           last_commit_time,
-          rule_sets.to_json,
+          rules.to_json,
           github_token
         )
       end
@@ -74,6 +74,7 @@ class ProjectEnqueuer
   def get_rules(rule_set_names)
     rule_sets = RuleSets.where(name: rule_set_names).to_hash
     rule_names = rule_sets.values.collect { |s| JSON.parse(s[:rules]) }.flatten.sort.uniq
+
     Rules.where(name: rule_names).select(:id, :name, :rule_type_id, :value, :notification_id)
   end
 end

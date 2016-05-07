@@ -1,10 +1,15 @@
 require_relative 'expression_rule'
 
 class RuleAuditor
-  # The actual content of the line is not exposed. *shrug*
+  # The actual content of the line is not publicly exposed.
   GitDiffParser::Line.class_eval { attr_reader :content }
 
-  def self.audit(commit, rule_type_id, rule_value, diff)
+  def initialize(all_rules)
+    # Used for expression rules so it doesn't have to look them up
+    @all_rules = all_rules
+  end
+
+  def audit(commit, rule_type_id, rule_value, diff)
     case rule_type_id
     when 1
       return unless diff
@@ -28,13 +33,13 @@ class RuleAuditor
 
 private
 
-  def self.audit_filename_pattern(pattern, diff)
+  def audit_filename_pattern(pattern, diff)
     filenames = diff.collect { |e| e.file }
     results = filenames.select { |e| e =~ pattern }
     results.empty? ? nil : results
   end
 
-  def self.audit_changed_code_pattern(pattern, diff)
+  def audit_changed_code_pattern(pattern, diff)
     results = []
     diff.each do |d|
       matches = d.body.scan(pattern)
@@ -81,7 +86,7 @@ private
     results.empty? ? nil : results
   end
 
-  def self.audit_code_pattern(pattern, diff)
+  def audit_code_pattern(pattern, diff)
     results = []
     diff.each do |d|
       matches = d.body.scan(pattern)
@@ -111,24 +116,24 @@ private
     results.empty? ? nil : results
   end
 
-  def self.audit_message_pattern(commit, pattern)
+  def audit_message_pattern(commit, pattern)
     message = commit[:commit][:message]
     (message =~ pattern) ? message : nil
   end
 
-  def self.audit_author_pattern(commit, pattern)
+  def audit_author_pattern(commit, pattern)
     author_name = commit[:commit][:author][:name]
     author_email = commit[:commit][:author][:email]
     author = "#{author_name} <#{author_email}>"
     (author =~ pattern) ? author : nil
   end
 
-  def self.audit_expression(commit, expression, diff)
-    rule = ExpressionRule.new(expression)
+  def audit_expression(commit, expression, diff)
+    rule = ExpressionRule.new(expression, @all_rules)
     rule.evaluate(commit, diff)
   end
 
-  def self.audit_commit_pattern(commit, pattern, diff)
+  def audit_commit_pattern(commit, pattern, diff)
     results = []
     results << audit_message_pattern(commit, pattern)
     results << audit_code_pattern(pattern, diff) if diff

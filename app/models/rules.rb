@@ -37,7 +37,7 @@ class Rules < Sequel::Model
       begin
         Boolean.parse(dummy)
 
-        exp = ExpressionRule.new(value)
+        exp = ExpressionRule.new(value, [])
         exp.rule_names.each do |exp_rule_name|
           next if Rules[name: exp_rule_name]
           errors.add(:value, "referenced rule does not exist: #{exp_rule_name}")

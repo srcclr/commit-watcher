@@ -30,13 +30,13 @@ class CommitAuditor
     diff = get_commit_diff(commit, rules, github_token)
 
     builder = AuditResultsBuilder.new
-    record = builder.build(project_id, commit, rules, diff)
+    results = builder.build(project_id, commit, diff, rules)
     return unless record
 
     begin
-      Commits.insert(record)
+      Commits.insert(results)
     rescue Sequel::UniqueConstraintViolation
-      Rails.logger.debug "Dropping duplicate commit: #{record}"
+      Rails.logger.debug "Dropping duplicate commit: #{results}"
     end
   end
 

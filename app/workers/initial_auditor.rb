@@ -31,8 +31,8 @@ class InitialAuditor
     tmpdir = Dir.mktmpdir(['cwatcher', project_name.sub('/', '-')])
     commits = []
     begin
-      git = clone(project_name, tmpdir)
       builder = AuditResultsBuilder.new
+      git = clone(project_name, tmpdir)
       # Log helpfully forces a limit which defaults to 30.
       git_commits = git.log(100000000)
       Rails.logger.debug "Collected #{git_commits.size} commits from #{project_name}"
@@ -53,13 +53,13 @@ class InitialAuditor
 
         commit = build_commit_hash(c)
         commits << commit
-        record = builder.build(project_id, commit, rules, diff)
-        next unless record
+        results = builder.build(project_id, commit, diff, rules)
+        next unless results
 
         begin
-          Commits.create(record)
+          Commits.create(results)
         rescue Sequel::UniqueConstraintViolation
-          Rails.logger.debug "Dropping duplicate commit: #{record}"
+          Rails.logger.debug "Dropping duplicate commit: #{results}"
         end
       end
     ensure

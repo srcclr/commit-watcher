@@ -1,15 +1,14 @@
-class ExpressionRule
-  attr_reader :rule_names
+require_relative 'rule_auditor'
 
-  def initialize(expression)
+class ExpressionRule
+  def initialize(expression, all_rules)
     @expression = expression
-    @rule_names = parse_rule_names
-    @rules = nil
+    @all_rules = all_rules
+    @auditor = RuleAuditor.new(@all_rules)
+    @rule_name_to_rule = Hash[@all_rules.map { |r| [r[:name], r] }]
   end
 
   def evaluate(commit, diff)
-    @rules ||= Rules.where(name: @rule_names)
-
     all_results = []
 
     if diff
@@ -25,13 +24,15 @@ class ExpressionRule
     all_results.empty? ? nil : all_results
   end
 
-private
+  def rule_names
+    @expression.tr('!&|()', '').split(/\s+/).uniq.sort
+  end
 
   def evaluate_patch(commit, patch)
-    # Todo change to collect
     results = []
-    resolved_expr = "#{@expression}"
-    @rules.each do |rule|
+    resolved_expr = @expression.to_s
+    rule_names.each do |rule_name|
+      rule = @rule_name_to_rule[rule_name]
       resolved_expr, result = resolve_rule(rule, resolved_expr, commit, patch)
       results << result
     end
@@ -48,18 +49,14 @@ private
     bool_value = !result.nil?
 
     [
-      resolved_expr.gsub(rule[:name], "#{bool_value}"),
+      resolved_expr.gsub(rule[:name], bool_value.to_s),
       # Store result even if nil. Expression could be "!someRule"
       { rule_name: rule[:name], result: result }
     ]
   end
 
-  def parse_rule_names
-    @expression.tr('!&|()', '').split(/\s+/).uniq.sort
-  end
-
   def evaluate_rule(rule, commit, diff)
-    RuleAuditor.audit(
+    @auditor.audit(
       commit,
       rule[:rule_type_id],
       rule[:value],
