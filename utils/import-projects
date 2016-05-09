@@ -39,7 +39,7 @@ optparse = OptionParser.new do |opts|
 
   opts.on('-r', '--rulesets RULE_SET[,RULE_SET]',
           "Rule sets for imported projects, default=\"#{options[:rulesets] * ','}\"") do |rulesets|
-    options[:rulesets] = rulesets
+    options[:rulesets] = rulesets.split(',')
   end
 end
 optparse.parse!
