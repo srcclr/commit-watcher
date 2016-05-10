@@ -465,73 +465,73 @@ rules = [
   {
     name: 'mysql_history_file',
     rule_type_id: 1,
-    value: '(?i)\.?mysql_history',
+    value: '(?i)\.mysql_history',
     description: 'MySQL history file'
   },
   {
     name: 'postgres_history_file',
     rule_type_id: 1,
-    value: '(?i)\.?psql_history',
+    value: '(?i)\.psql_history',
     description: 'PostgreSQL history file'
   },
   {
     name: 'irb_history_file',
     rule_type_id: 1,
-    value: '(?i)\.?irb_history',
+    value: '(?i)\.irb_history',
     description: 'Interactive Ruby Debugger (irb) history file'
   },
   {
     name: 'pidgin_accounts',
     rule_type_id: 1,
-    value: '(?i)\.?purple/accounts\.xml',
+    value: '(?i)\.purple/accounts\.xml',
     description: 'Pidgen client account configuration file'
   },
   {
     name: 'xchat_serverlist_file',
     rule_type_id: 1,
-    value: '(?i)\.?xchat2/servlist_?\.conf',
+    value: '(?i)\.xchat2/servlist_?\.conf',
     description: 'Pidgen client account configuration file'
   },
   {
     name: 'irssi_config_file',
     rule_type_id: 1,
-    value: '(?i)\.?irssi/config',
+    value: '(?i)\.irssi/config',
     description: 'irssi IRC client configuration file'
   },
   {
     name: 'recon-ng_api_keys_file',
     rule_type_id: 1,
-    value: '(?i)\.?recon-ng/keys\.db',
+    value: '(?i)\.recon-ng/keys\.db',
     description: 'Recon-ng Web Reconnassance Framework API key database'
   },
   {
     name: 'dbeaver_config_file',
     rule_type_id: 1,
-    value: '(?i)\.?dbeaver-data-sources.xml',
+    value: '(?i)\.dbeaver-data-sources.xml',
     description: 'DBeaver SQL database manager configuration file'
   },
   {
     name: 'mutt_rc_file',
     rule_type_id: 1,
-    value: '(?i)\.?muttrc',
+    value: '(?i)\.muttrc',
     description: 'mutt email client configuration file'
   },
   {
     name: 'twitter_cli_config_file',
     rule_type_id: 1,
-    value: '(?i)\.?trc\b',
+    value: '(?i)\.trc\b',
     description: 'Twitter command line client configuration file'
   },
   {
     name: 'ovpn_config_file',
     rule_type_id: 1,
-    value: '(?i)\.?ovpn',
+    value: '(?i)\.ovpn',
     description: 'OpenVPN client configuration file'
   },
   {
     name: 'gitrob_config_file',
     rule_type_id: 1,
-    value: '(?i)\.?gitrobrc',
+    value: '(?i)\.gitrobrc',
     description: 'Gitrob configuration file :D'
   },
   {
