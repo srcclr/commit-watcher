@@ -24,6 +24,7 @@ class ProjectEnqueuer
   sidekiq_options queue: :enqueue_projects
 
   def perform
+    # Specifically excludes last_commit_time == Time.at(-1)
     projects = Projects.where {
       (next_audit <= Time.now.to_i) &
       (rule_sets !~ nil) &
@@ -50,6 +51,7 @@ class ProjectEnqueuer
       last_commit_time = project[:last_commit_time] || Time.at(0)
       if last_commit_time == Time.at(0)
         # Ensure this project isn't initially audited again until it's finished
+        # Initial select query will exclude this project again
         project.update(last_commit_time: Time.at(-1))
 
         # First time a project is audited, clone it locally to avoid

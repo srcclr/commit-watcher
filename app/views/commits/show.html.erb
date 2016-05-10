@@ -19,8 +19,8 @@ limitations under the License.
 <%= link_to 'Back', commits_path %>
 
 <p>
-  <strong>Project ID:</strong>
-  <%= @commit.project_id %>
+  <strong>Project:</strong>
+  <%= link_to "#{@commit.project_id} - #{@commit[:name]}", edit_project_path(@commit.project_id) %>
 </p>
 
 <p>
@@ -47,6 +47,11 @@ limitations under the License.
 <p>
   <strong>Date Created:</strong>
   <%= @commit.date_created %>
+</p>
+
+<p>
+  <strong>Submit to SourceClear:</strong>
+  <%= link_to 'Submit Possible Vulnerability', "https://github.com/srcclr/commit-watcher/issues/new?title=Possible%20Vulnerability&body=What%20is%20the%20project%3F%0A#{@commit[:name]}%0A%0AWhat%20is%20the%20commit%20hash%3F%0A#{@commit.commit_hash}%0A%0AWhy%20do%20you%20believe%20it%20is%20a%20vulnerability%3F%0A%3CEnter%20your%20reason(s)%20here...%3E", target: '_blank'  %>
 </p>
 
 <p>
