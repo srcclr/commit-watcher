@@ -31,7 +31,7 @@ class CommitAuditor
 
     builder = AuditResultsBuilder.new
     results = builder.build(project_id, commit, diff, rules)
-    return unless record
+    return unless results
 
     begin
       Commits.insert(results)

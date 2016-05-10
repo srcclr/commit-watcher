@@ -10,3 +10,6 @@
 3:
   :name: 'unknown'
   :description: 'Commit has been triaged but its super confusing and should be looked at later.'
+4:
+  :name: 'not relevant'
+  :description: 'Commit is not relevant for analysis, e.g. project is not a library.'
