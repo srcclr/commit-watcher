@@ -4,6 +4,6 @@
       of the project <%= @project_name %> has been detected.
     </p>
     <h2>Audit Results</h2>
-    <code>
-<%= JSON.pretty_generate(@audit_result) %>
-    </code>
+    <pre>
+<%=h JSON.pretty_generate(@audit_result) %>
+    </pre>
