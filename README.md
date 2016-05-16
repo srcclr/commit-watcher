@@ -8,18 +8,13 @@ Commit Watcher is intended to be an API accessible backend service. The UI is on
 
 ## Setup
 
-Install MySQL. On Mac, with Brew, you can do that with this command:
+Install MySQL and Redis. On Mac, with Brew, you can do that with this command:
 
 ```bash
-brew install mysql
+brew install mysql redis
 ```
 
-Install Redis similarly:
-```bash
-brew install redis
-```
-
-For both of the above commands, be sure and follow the instructions brew gives you so the services are started properly.
+Follow the instructions Brew gives you so the services are started properly.
 
 Install gem dependencies:
 
@@ -36,7 +31,18 @@ echo "COMMIT_WATCHER_DATABASE_PASSWORD: 'changeme123'" >> config/application.yml
 echo "SECRET_KEY_BASE: `rake secret`" >> config/application.yml
 ```
 
-The rest of the setup depends on how you want to run Commit Watcher. You can either run it locally, which is good for quick development or you can run it with Docker.
+The rest of the setup depends on how you want to run Commit Watcher. You can either run it locally, which is good for quick development, or you can run it with Docker.
+
+#### *Optional:* Configuring Email Notifications
+
+To use email notifications, set your Gmail username and password with these commands:
+
+```bash
+echo "GMAIL_USERNAME: 'sah.dude@gmail.com'" >> config/application.yml
+echo "GMAIL_PASSWORD: 'urpassbro'" >> config/application.yml
+```
+
+If you'd like to use another email provider other than Gmail, you'll have to change these two files: [`config/environments/development.rb`](config/environments/development.rb) and [`config/environments/production.rb`](config/environments/production.rb).
 
 ### Running Locally
 
@@ -61,6 +67,7 @@ bundle exec sidekiq
 ### Running with Docker
 
 First, change the root and user passwords in [`.env.db`](.env.db).
+
 ```
 # Not used but should set one for security.
 MYSQL_ROOT_PASSWORD=changeme123
