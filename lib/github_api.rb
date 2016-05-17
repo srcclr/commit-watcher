@@ -77,7 +77,10 @@ class GitHubAPI
       break
     end
 
-    return request_raw(uri, github_token, params, headers) if response == Net::HTTPRedirection
+    if response.kind_of?(Net::HTTPRedirection)
+      new_url = response['location']
+      return request_raw(new_url, github_token, params, headers)
+    end
 
     unless response.code.to_i == 200
       raise "Request failed with #{response.code}: #{response.read_body}"

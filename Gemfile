@@ -80,4 +80,6 @@ group :development, :test do
 
   # Create hashes that look like classes with methods
   gem 'hash_dot'
+
+  gem 'webmock'
 end

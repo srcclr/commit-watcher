@@ -1,0 +1,72 @@
+[
+  {
+    "sha": "d6dcaa7203e859037bfaa1222f85111feb3dbe93",
+    "commit": {
+      "author": {
+        "name": "Caleb Fenton",
+        "email": "calebjfenton@gmail.com",
+        "date": "2016-02-23T04:03:40Z"
+      },
+      "committer": {
+        "name": "Caleb Fenton",
+        "email": "calebjfenton@gmail.com",
+        "date": "2016-02-23T04:03:40Z"
+      },
+      "message": "Prepare 1.0 release, update gradlew",
+      "tree": {
+        "sha": "31af61b96fd652305d4a8874cc1ddb27fafc59a2",
+        "url": "https://api.github.com/repos/CalebFenton/simplify/git/trees/31af61b96fd652305d4a8874cc1ddb27fafc59a2"
+      },
+      "url": "https://api.github.com/repos/CalebFenton/simplify/git/commits/d6dcaa7203e859037bfaa1222f85111feb3dbe93",
+      "comment_count": 4
+    },
+    "url": "https://api.github.com/repos/CalebFenton/simplify/commits/d6dcaa7203e859037bfaa1222f85111feb3dbe93",
+    "html_url": "https://github.com/CalebFenton/simplify/commit/d6dcaa7203e859037bfaa1222f85111feb3dbe93",
+    "comments_url": "https://api.github.com/repos/CalebFenton/simplify/commits/d6dcaa7203e859037bfaa1222f85111feb3dbe93/comments",
+    "author": {
+      "login": "CalebFenton",
+      "id": 1356658,
+      "avatar_url": "https://avatars.githubusercontent.com/u/1356658?v=3",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/CalebFenton",
+      "html_url": "https://github.com/CalebFenton",
+      "followers_url": "https://api.github.com/users/CalebFenton/followers",
+      "following_url": "https://api.github.com/users/CalebFenton/following{/other_user}",
+      "gists_url": "https://api.github.com/users/CalebFenton/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/CalebFenton/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/CalebFenton/subscriptions",
+      "organizations_url": "https://api.github.com/users/CalebFenton/orgs",
+      "repos_url": "https://api.github.com/users/CalebFenton/repos",
+      "events_url": "https://api.github.com/users/CalebFenton/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/CalebFenton/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "CalebFenton",
+      "id": 1356658,
+      "avatar_url": "https://avatars.githubusercontent.com/u/1356658?v=3",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/CalebFenton",
+      "html_url": "https://github.com/CalebFenton",
+      "followers_url": "https://api.github.com/users/CalebFenton/followers",
+      "following_url": "https://api.github.com/users/CalebFenton/following{/other_user}",
+      "gists_url": "https://api.github.com/users/CalebFenton/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/CalebFenton/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/CalebFenton/subscriptions",
+      "organizations_url": "https://api.github.com/users/CalebFenton/orgs",
+      "repos_url": "https://api.github.com/users/CalebFenton/repos",
+      "events_url": "https://api.github.com/users/CalebFenton/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/CalebFenton/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "5d8997a715edefdd4d5404f5ac53fc44b1fe2f64",
+        "url": "https://api.github.com/repos/CalebFenton/simplify/commits/5d8997a715edefdd4d5404f5ac53fc44b1fe2f64",
+        "html_url": "https://github.com/CalebFenton/simplify/commit/5d8997a715edefdd4d5404f5ac53fc44b1fe2f64"
+      }
+    ]
+  }
+]

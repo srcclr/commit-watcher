@@ -1,3 +1,6 @@
+require 'webmock/rspec'
+require_relative 'support/fake_github.rb'
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
@@ -23,6 +26,6 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    stub_request(:any, /api.github.com/).to_rack(FakeGitHub)
+    stub_request(:any, /api\.github\.com/).to_rack(FakeGitHub)
   end
 end
