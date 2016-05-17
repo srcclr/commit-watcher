@@ -24,6 +24,7 @@ class CommitsController < ApplicationController
         .order(order_expr)
 
     @commits = @commits.where(status_type_id: params[:status_type_id]) if valid_status_type?
+    @commits = @commits.where(project_id: params[:project_id]) if valid_project_id?
     @commits = @commits.where(Sequel.like(:commit_hash, "#{params[:commit_hash]}%")) if valid_commit_hash?
     @commits = @commits.where(Sequel.like(:audit_results, "%#{params[:audit_results]}%")) if params[:audit_results]
 
@@ -73,6 +74,10 @@ private
 
   def valid_commit_hash?
     params[:commit_hash] && params[:commit_hash] =~ /\A[a-f0-9]+\z/i
+  end
+
+  def valid_project_id?
+    params[:project_id] && params[:project_id] =~ /\A\d+\z/
   end
 
   def order_expr
