@@ -3,8 +3,8 @@ require 'rails_helper'
 describe API::V1::CommitsController, type: :controller, class: Commits do
   context 'with two random commits' do
     before(:each) do
-      @commit1 = FactoryGirl.create(:commits)
-      @commit2 = FactoryGirl.create(:commits)
+      @commit1 = FactoryGirl.create(:commit)
+      @commit2 = FactoryGirl.create(:commit)
     end
 
     describe 'GET index with page size = 1' do

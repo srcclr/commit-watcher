@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Projects do
   describe '.new' do
-    let(:name) { 'name' }
+    let(:name) { 'srcclr/commit-watcher' }
     let(:rule_sets) { %w(rule_set1).to_json }
     let(:project) {
       Rules.create(name: 'rule1', rule_type_id: 1, value: 'val', description: 'desc')

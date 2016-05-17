@@ -3,9 +3,10 @@ require 'hash_dot'
 
 describe RuleAuditor do
     Hash.use_dot_syntax = true
+    let(:auditor) { RuleAuditor.new({}) }
 
     describe '.audit' do
-        subject { RuleAuditor.audit(commit, rule_type_id, rule_value, diff) }
+        subject { auditor.audit(commit, rule_type_id, rule_value, diff) }
 
         let(:patch_herpy_java) {
             {
@@ -131,6 +132,7 @@ describe RuleAuditor do
             let(:filename_id) { RuleTypes.select { |_, v| v[:name] == 'filename_pattern' }.keys.first }
             let(:rule1) { { name: 'rule1', rule_type_id: filename_id, value: '\.txt\z' } }
             let(:rule2) { { name: 'rule2', rule_type_id: filename_id, value: '\.java\z' } }
+            let(:auditor) { RuleAuditor.new([rule1, rule2]) }
             let(:rules) { double('Rules') }
             let(:diff) { [{ file: 'path/herpy.java' }, { file: 'wow/derpy.txt' }] }
             let(:commit) { nil }

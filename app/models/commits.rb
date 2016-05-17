@@ -23,6 +23,8 @@ class Commits < Sequel::Model
 
     audit_results = JSON.parse(self.audit_results, symbolize_names: true)
     audit_results.each do |audit_result|
+        next unless audit_result.is_a?(Hash) && audit_result.has_key?(:notification_id)
+
         notification_id = audit_result[:notification_id]
         next unless notification_id
 
