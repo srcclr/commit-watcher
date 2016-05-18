@@ -15,7 +15,7 @@ limitations under the License.
 =end
 
 require_relative "#{Rails.root}/lib/audit_results_builder"
-require_relative "#{Rails.root}/lib/git_repo_old"
+require_relative "#{Rails.root}/lib/git_repo"
 
 class InitialAuditor
   include Sidekiq::Worker
@@ -24,7 +24,7 @@ class InitialAuditor
   def perform(project_id, project_name, rules)
     Rails.logger.debug "Collecting commits for #{project_name} for the first time"
     start_time = Time.now
-    repo = GitRepoOld.new(project_name)
+    repo = GitRepo.new(project_name)
     Rails.logger.debug "Collected #{repo.commits.size} commits from #{project_name}"
 
     rules = JSON.parse(rules, symbolize_names: true)

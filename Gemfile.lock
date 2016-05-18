@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/libgit2/rugged.git
+  revision: 26587edf371c2175af4f7c39fe701a2b201a25df
+  submodules: true
+  specs:
+    rugged (0.25.0b2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -228,6 +235,7 @@ DEPENDENCIES
   rails (= 4.2.5.2)
   rspec (~> 3.4.0)
   rspec-rails (~> 3.4.0)
+  rugged!
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   sequel-rails

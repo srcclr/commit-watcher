@@ -48,8 +48,8 @@ gem 'sidekiq-limit_fetch'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-# Handling local, temporary clones of git repos
-gem 'git'
+# Interface with locally cloned git repos
+gem 'rugged', git: 'git://github.com/libgit2/rugged.git', submodules: true
 
 # Parse diffs from GitHub
 gem 'git_diff_parser'
