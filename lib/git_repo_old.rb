@@ -35,14 +35,13 @@ class GitRepoOld
 
   def diffs
     commits
-
     @commits.each do |commit|
       commit_hash = build_commit_hash(commit)
       diff = nil
       begin
         diff = get_commit_diff(commit)
       rescue Git::GitExecuteError => e
-        Rails.logger.warn e.backtrace.join("\n")
+        Rails.logger.warn e.backtrace * "\n"
         # Git parsing gem has trouble with a repo every now and then
         # Skip this commit
         next
