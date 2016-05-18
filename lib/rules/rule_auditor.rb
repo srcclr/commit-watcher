@@ -15,6 +15,7 @@ limitations under the License.
 =end
 
 require_relative 'expression_rule'
+require 'git_diff_parser'
 
 class RuleAuditor
   # The actual content of the line is not publicly exposed.

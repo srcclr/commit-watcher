@@ -14,11 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 =end
 
-require 'git_diff_parser'
-require 'activesupport/json_encoder'
-
 require_relative "#{Rails.root}/lib/audit_results_builder"
-require_relative "#{Rails.root}/lib/github_api"
+require_relative "#{Rails.root}/lib/git_repo_old"
 
 class InitialAuditor
   include Sidekiq::Worker
@@ -26,45 +23,30 @@ class InitialAuditor
 
   def perform(project_id, project_name, rules)
     Rails.logger.debug "Collecting commits for #{project_name} for the first time"
+    start_time = Time.now
+    repo = GitRepoOld.new(project_name)
+    Rails.logger.debug "Collected #{repo.commits.size} commits from #{project_name}"
 
     rules = JSON.parse(rules, symbolize_names: true)
-    tmpdir = Dir.mktmpdir(['cwatcher', project_name.sub('/', '-')])
+    builder = AuditResultsBuilder.new
     commits = []
-    begin
-      builder = AuditResultsBuilder.new
-      git = clone(project_name, tmpdir)
-      # Log helpfully forces a limit which defaults to 30.
-      git_commits = git.log(100000000)
-      Rails.logger.debug "Collected #{git_commits.size} commits from #{project_name}"
-      count = 0
-      git_commits.each do |c|
-        count += 1
-        Rails.logger.debug "Auditing (#{count}/#{git_commits.size}) #{c.sha} for #{project_name}"
+    count = 0
+    repo.diffs do |commit_hash, diff|
+      count += 1
+      commits << commit_hash
 
-        diff = nil
-        begin
-          diff = get_commit_diff(git, c)
-        rescue Git::GitExecuteError => e
-          Rails.logger.warn e.backtrace.join("\n")
-          # Git parsing gem has trouble with a repo every now and then
-          # Skip this commit
-          next
-        end
+      Rails.logger.debug "Auditing (#{count}/#{repo.commits.size}) #{commit_hash[:sha]} for #{project_name}"
+      results = builder.build(project_id, commit_hash, diff, rules)
+      next unless results
 
-        commit = build_commit_hash(c)
-        commits << commit
-        results = builder.build(project_id, commit, diff, rules)
-        next unless results
-
-        begin
-          Commits.create(results)
-        rescue Sequel::UniqueConstraintViolation
-          Rails.logger.debug "Dropping duplicate commit: #{results}"
-        end
+      begin
+        Commits.create(results)
+      rescue Sequel::UniqueConstraintViolation
+        Rails.logger.debug "Dropping duplicate commit: #{results}"
       end
-    ensure
-      FileUtils.remove_entry_secure(tmpdir) if File.exist?(tmpdir)
     end
+    end_time = Time.now
+    Rails.logger.debug "Finished auditing #{project_name} in #{end_time - start_time} seconds"
 
     # Sometimes commits don't have all information
     # e.g. https://github.com/activerecord-hackery/meta_search/commit/f95e7e225242a42646d1ef51e3d71c917e8fc148
@@ -76,41 +58,5 @@ class InitialAuditor
     return unless project # project was deleted while this was auditing
 
     project.update(last_commit_time: last_commit_time)
-  end
-
-private
-
-  def clone(project_name, dir)
-    cmd = "git clone --no-checkout --quiet https://anon:anon@github.com/#{project_name} #{dir}"
-    result = `#{cmd} 2>&1`
-    fail result if $?.exitstatus != 0
-
-    Git.open(dir)
-  end
-
-  def get_commit_diff(git, commit)
-    diff_raw = nil
-    if commit.parent
-      diff_raw = git.diff(commit, commit.parent).to_s
-    else
-      diff_raw = git.diff(commit).to_s
-    end
-    diff_raw.empty? ? nil : GitDiffParser.parse(
-      diff_raw.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
-    )
-  end
-
-  def build_commit_hash(git_commit)
-    commit_json = JSON.parse(git_commit.to_json, symbolize_names: true)
-
-    # Make a hash that looks a bit like GitHub commit
-    {
-      sha: commit_json[:sha],
-      commit: {
-        message: commit_json[:message],
-        author: commit_json[:author],
-        committer: commit_json[:committer],
-      },
-    }
   end
 end
