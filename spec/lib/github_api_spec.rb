@@ -15,7 +15,6 @@ limitations under the License.
 =end
 
 require 'rails_helper'
-#require 'spec_helper'
 
 describe 'GitHubAPI' do
   describe '.request_raw' do
@@ -24,7 +23,6 @@ describe 'GitHubAPI' do
     let(:github_token) { 'token' }
     subject { GitHubAPI.request_raw(url, github_token) }
 
-#self.request_raw(uri, github_token, params = nil, headers = {})
     it { should_not be nil }
   end
 end
