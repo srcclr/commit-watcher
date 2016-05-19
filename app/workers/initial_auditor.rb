@@ -23,10 +23,10 @@ class InitialAuditor
 
   def perform(project_id, project_name, rules)
     Rails.logger.debug "Collecting commits for #{project_name} for the first time"
-    start_time = Time.now
     repo = GitRepo.new(project_name)
     Rails.logger.debug "Collected #{repo.commits.size} commits from #{project_name}"
 
+    start_time = Time.now
     rules = JSON.parse(rules, symbolize_names: true)
     builder = AuditResultsBuilder.new
     commits = []
