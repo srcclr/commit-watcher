@@ -1,7 +1,7 @@
-FROM ruby:2.2.2
+FROM ruby:2.3.1
 
 RUN apt-get update -qq
-RUN apt-get install -y build-essential nodejs npm nodejs-legacy mysql-client vim
+RUN apt-get install -y build-essential nodejs nodejs-legacy npm mysql-client vim cmake
 
 WORKDIR /tmp
 COPY Gemfile Gemfile
