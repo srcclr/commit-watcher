@@ -1,6 +1,6 @@
 Sequel.migration do
   change do
-    create_table(:configurations) do
+    create_table(:configurations, charset: 'utf8', collate: 'utf8_general_ci') do
       primary_key :id, :type=>"int(11) unsigned"
       column :name, "varchar(50)", :default=>"", :null=>false
       column :audit_frequency, "int(11) unsigned", :default=>1440, :null=>false
@@ -9,14 +9,14 @@ Sequel.migration do
       index [:name], :name=>:name, :unique=>true
     end
 
-    create_table(:notifications) do
+    create_table(:notifications, charset: 'utf8', collate: 'utf8_general_ci') do
       primary_key :id, :type=>"int(11) unsigned"
       column :name, "varchar(50)", :default=>"", :null=>false
       column :notification_type_id, "tinyint(3)", :default=>0, :null=>false
       column :target, "varchar(200)", :default=>"", :null=>false
     end
 
-    create_table(:projects) do
+    create_table(:projects, charset: 'utf8', collate: 'utf8_general_ci') do
       primary_key :id, :type=>"int(11) unsigned"
       column :name, "varchar(200)", :default=>"", :null=>false
       column :rule_sets, "varchar(200)", :default=>"", :null=>false
@@ -27,7 +27,7 @@ Sequel.migration do
       index [:name], :name=>:name, :unique=>true
     end
 
-    create_table(:rule_sets) do
+    create_table(:rule_sets, charset: 'utf8', collate: 'utf8_general_ci') do
       primary_key :id, :type=>"int(11) unsigned"
       column :name, "varchar(50)", :default=>"", :null=>false
       column :rules, "longtext", :null=>false
@@ -36,7 +36,7 @@ Sequel.migration do
       index [:name], :name=>:name, :unique=>true
     end
 
-    create_table(:commits) do
+    create_table(:commits, charset: 'utf8', collate: 'utf8_general_ci') do
       primary_key :id, :type=>"int(11) unsigned"
       foreign_key :project_id, :projects, :type=>"int(11) unsigned", :null=>false, :key=>[:id], :on_delete=>:cascade
       column :status_type_id, "tinyint(3) unsigned", :default=>0, :null=>false
@@ -49,7 +49,7 @@ Sequel.migration do
       index [:commit_hash], :name=>:uq_commit_hash, :unique=>true
     end
 
-    create_table(:rules) do
+    create_table(:rules, charset: 'utf8', collate: 'utf8_general_ci') do
       primary_key :id, :type=>"int(11) unsigned"
       column :name, "varchar(50)", :default=>"", :null=>false
       column :rule_type_id, "int(11) unsigned", :null=>false
