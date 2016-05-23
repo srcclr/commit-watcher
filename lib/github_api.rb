@@ -15,16 +15,41 @@ limitations under the License.
 =end
 
 require 'cgi'
+require 'json'
 require 'net/http'
 require 'uri'
 
 class GitHubAPI
-  def self.request_json(uri, github_token, params = nil)
+  COMMITS_URL = 'https://api.github.com/repos/%s/commits'.freeze
+  REPOS_URL = 'https://api.github.com/users/%s/repos'.freeze
+
+  def initialize(token)
+    @token = token
+  end
+
+  def get_commits(project_name, since_time = nil)
+    uri = COMMITS_URL % project_name
+    params = since_time ? { since: since_time.iso8601 } : nil
+    request_json(uri, params)
+  end
+
+  def get_diff(commit_url)
+    #curl -H "Accept: application/vnd.github.diff" https://api.github.com/repos/CalebFenton/simplify/commits/d6dcaa7203e859037bfaa1222f85111feb3dbe93
+    headers = { 'Accept' => 'application/vnd.github.VERSION.diff' }
+    request_page(commit_url, nil, headers)
+  end
+
+  def get_repo_names(username)
+    uri = REPOS_URL % username
+    repos = request_json(uri)
+    repos.collect { |r| r[:name] }
+  end
+
+  def request_json(uri, params = nil)
     all_json = []
     loop do
-      response = request_raw(uri, github_token, params)
+      response = request_raw(uri, params)
       json = JSON.parse(response.read_body, symbolize_names: true)
-      p json
       all_json += json
       break unless response['Link']
 
@@ -46,12 +71,12 @@ class GitHubAPI
     all_json
   end
 
-  def self.request_page(uri, github_token, params = nil, headers = {})
-    response = request_raw(uri, github_token, params, headers)
+  def request_page(uri, params = nil, headers = {})
+    response = request_raw(uri, params, headers)
     response.read_body
   end
 
-  def self.request_raw(uri, github_token, params = nil, headers = {})
+  def request_raw(uri, params = nil, headers = {})
     Rails.logger.debug "GitHub request: #{uri} #{params}"
     uri = URI(uri)
     uri.query = URI.encode_www_form(params) if params
@@ -60,7 +85,7 @@ class GitHubAPI
     loop do
       Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
         request = Net::HTTP::Get.new(uri)
-        request['Authorization'] = "token #{github_token}"
+        request['Authorization'] = "token #{@token}"
         headers.each { |k,v| request[k] = v }
         response = http.request(request)
       end
@@ -79,7 +104,7 @@ class GitHubAPI
 
     if response.kind_of?(Net::HTTPRedirection)
       new_url = response['location']
-      return request_raw(new_url, github_token, params, headers)
+      return request_raw(new_url, params, headers)
     end
 
     unless response.code.to_i == 200

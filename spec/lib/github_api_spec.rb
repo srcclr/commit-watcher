@@ -21,7 +21,8 @@ describe 'GitHubAPI' do
     #https://api.github.com/repositories/5625/commits?since=2016-05-01T12%3A45%3A06%2B00%3A00
     let(:url) { 'https://api.github.com/repositories/5625/commits_redirect?since=2016-05-01T12%3A45%3A06%2B00%3A00' }
     let(:github_token) { 'token' }
-    subject { GitHubAPI.request_raw(url, github_token) }
+    let(:gh) { GitHubAPI.new(github_token) }
+    subject { gh.request_raw(url) }
 
     it { should_not be nil }
   end

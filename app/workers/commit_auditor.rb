@@ -47,10 +47,8 @@ private
     diff_rule_type_ids = RuleTypes.select { |k, v| v[:requires_diff] }.keys
     return if (rule_type_ids & diff_rule_type_ids).empty?
 
-    #curl -H "Accept: application/vnd.github.diff" https://api.github.com/repos/CalebFenton/simplify/commits/d6dcaa7203e859037bfaa1222f85111feb3dbe93
-    commit_url = commit[:url]
-    headers = { 'Accept' => 'application/vnd.github.VERSION.diff' }
-    diff_raw = GitHubAPI.request_page(commit_url, github_token, nil, headers)
+    gh = GitHubAPI.new(github_token)
+    diff_raw = gh.get_diff(commit[:url])
     diff_raw.empty? ? nil : GitDiffParser.parse(diff_raw)
   end
 end

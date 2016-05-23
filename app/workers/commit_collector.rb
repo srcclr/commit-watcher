@@ -21,7 +21,7 @@ class CommitCollector
   include Sidekiq::Worker
   sidekiq_options queue: :collect_commits
 
-  COMMITS_URL = 'https://api.github.com/repos/%s/commits'
+  COMMITS_URL = 'https://api.github.com/repos/%s/commits'.freeze
 
   def perform(project_id, project_name, last_commit_time, rules, github_token)
     last_commit_time = Time.parse(last_commit_time)
@@ -40,10 +40,7 @@ class CommitCollector
   end
 
   def collect_commits(project_name, last_commit_time, github_token)
-    uri = COMMITS_URL % project_name
-    since_time = last_commit_time + 1
-    params = { since: since_time.iso8601 }
-    response = GitHubAPI.request_json(uri, github_token, params)
-    response
+    gh = GitHubAPI.new(github_token)
+    gh.get_commits(project_name, since_time)
   end
 end
