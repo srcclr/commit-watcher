@@ -539,6 +539,12 @@ rules = [
     value: '(?i)omniauth\.rb',
     description: 'OmniAuth configuration file'
   },
+  {
+    name: 'markdown_file',
+    rule_type_id: 1,
+    value: '(?i)\.(md|markdown)\z',
+    description: 'Markdown file'
+  },
 ]
 rules.each { |r| Rules.create(r) }
 
