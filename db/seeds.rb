@@ -24,12 +24,6 @@ rules = [
     description: 'Strong indication of a silent vulnerability fix'
   },
   {
-    name: 'markdown_file',
-    rule_type_id: 1,
-    value: '(?i)\.(md|markdown)\z',
-    description: 'Markdown file'
-  },
-  {
     name: 'non_code_file',
     rule_type_id: 1,
     value: '(?i)\.(log|cfg|ini|text|config|md|markdown|txt|yml|yaml)\z',
@@ -47,7 +41,6 @@ rules = [
     value: '(?i)(abuse|compliant|constant.time|credential|\bcrypto|escalate|exhaustion|forced|infinite|RFC\d{4,5})',
     description: 'Weak indication of a silent vulnerability fix'
   },
-
   {
     name: 'npm_authentication_file',
     rule_type_id: 1,
