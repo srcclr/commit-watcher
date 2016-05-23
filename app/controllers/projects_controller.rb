@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 =end
 
+require_relative "#{Rails.root}/lib/github_api"
+
 class ProjectsController < ApplicationController
   def index
     @projects = Projects
@@ -24,9 +26,14 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @project = Projects.new(create_project_params)
+    params = create_project_params
     begin
-      @project.save
+      if params[:name].include?('/')
+        @project = import_project(params[:name], params[:rule_sets])
+      else
+        @project = import_user(params[:name], params[:rule_sets])
+      end
+
       redirect_to action: 'index'
     rescue Sequel::ValidationFailed
       render 'new'
@@ -55,6 +62,21 @@ class ProjectsController < ApplicationController
   end
 
 private
+
+  def import_user(username, rule_sets)
+    github_token = Configurations.first.github_token
+    gh = GitHubAPI.new(github_token)
+    repo_names = gh.get_repo_names(username)
+    repo_names.each do |repo_name|
+      import_project("#{username}/#{repo_name}", rule_sets)
+    end
+  end
+
+  def import_project(name, rule_sets)
+    project = Projects.new({ name: name, rule_sets: rule_sets })
+    project.save
+    project
+  end
 
   def create_project_params
     params.require(:project).permit(:name, :rule_sets)
