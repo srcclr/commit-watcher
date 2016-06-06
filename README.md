@@ -1,10 +1,16 @@
 # Commit Watcher
 
-Commit Watcher monitors the commits of a configurable list GitHub projects. If any commit matches a rule such as "contains the pattern `/vulnerability disclosure/`" or "Gemfile was modified", it is recorded so it can be examined later.
+Commit Watcher finds interesting and potentially hazardous commits in git projects. Watch your own projects to make sure you didn't accidentally leak your AWS keys or other credentials, and watch open-source projects you use to find undisclosed security vulnerabilities and patches.
 
-The goal of this project was to allow the research team to watch the commits of certain repositories for commits which look like they fix undisclosed security vulnerabilities which we could then investigate and share with the community. In some cases the developer may not realize or wish to disclose that a vulnerability existed or that a particular commit fixed the vulnerability, but the commit message or changed code may hint that a commit has to do with a security fix.
+At [SourceClear](https://srcclr.com/), we want to help you use open-source software safely. Oftentimes when a security vulnerability is discovered and fixed in an open-source project, there isn't a public disclosure about it. In part, this is because the [CVE](https://en.wikipedia.org/wiki/Common_Vulnerabilities_and_Exposures) process is onerous and labor intensive, and notifying all the users of a project isn't possible.
 
-Commit Watcher is intended to be an API accessible backend service. The UI is only there for testing, and the scope of functionality is limited to 1.) collecting commits and 2.) auditing them against a set of rules.
+Oh, and about that UI. Commit Watcher is intended to be an API accessible backend service. The UI is only there for testing, and the scope of functionality is limited to collecting commits and auditing them against a set of rules.
+
+## Contributing
+
+Commit Watcher ships with [dozens of rules and patterns](https://github.com/srcclr/commit-watcher/blob/master/db/seeds.rb) to find leaked credentials and potential security issues, but we'd love your help in adding more.
+
+Additionally, if you find a security issue on an open-source project using Commit Watcher, our security research team would love to help verify it. You can open an issue against this repo from the UI, or just drop a link to the offending commit in a [new issue](https://github.com/srcclr/commit-watcher/issues/new).
 
 ## Setup
 
