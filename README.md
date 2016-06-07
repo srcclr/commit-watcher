@@ -8,7 +8,7 @@ Oh, and about that UI. Commit Watcher is intended to be an API accessible backen
 
 ## Contributing
 
-Commit Watcher ships with [dozens of rules and patterns](https://github.com/srcclr/commit-watcher/blob/master/db/seeds.rb) to find leaked credentials and potential security issues, but we'd love your help in adding more.
+Check out the dozens of rules and patterns in the [srcclr/commit-watcher-rules](https://github.com/srcclr/commit-watcher-rules) repository that help find leaked credentials and potential security issues. Just open an issue or PR in that repo if there's a rule you'd like to see added.
 
 Additionally, if you find a security issue on an open-source project using Commit Watcher, our security research team would love to help verify it. You can open an issue against this repo from the UI, or just drop a link to the offending commit in a [new issue](https://github.com/srcclr/commit-watcher/issues/new).
 
