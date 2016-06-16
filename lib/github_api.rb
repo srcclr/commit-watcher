@@ -90,9 +90,9 @@ class GitHubAPI
         response = http.request(request)
       end
 
-      being_rate_limited = response.code.to_i == 403 && response['X-RateLimit-Remaining'].to_i == 0
+      being_rate_limited = response.code.to_i == 403 && response['x-ratelimit-remaining'].to_i == 0
       if being_rate_limited
-        reset_time = Time.at(response['X-RateLimit-Reset'].to_i)
+        reset_time = Time.at(response['x-ratelimit-reset'].to_i)
         sleep_duration = reset_time - Time.now
         Rails.logger.debug "Rate limited until #{reset_time} (#{sleep_duration} seconds)"
         sleep(sleep_duration)
