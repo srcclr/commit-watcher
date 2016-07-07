@@ -41,6 +41,6 @@ class CommitCollector
 
   def collect_commits(project_name, last_commit_time, github_token)
     gh = GitHubAPI.new(github_token)
-    gh.get_commits(project_name, since_time)
+    gh.get_commits(project_name, last_commit_time)
   end
 end
