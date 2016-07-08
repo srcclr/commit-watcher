@@ -23,7 +23,7 @@ class CommitsController < ApplicationController
         .select_append(:projects__name)
         .order(order_expr)
 
-    @commits = @commits.where("DATE(commit_date) > 2010-12-31")
+    @commits = @commits.where("DATE(commit_date) > '2010-12-31'")
     @commits = @commits.where(status_type_id: params[:status_type_id]) if valid_status_type?
     @commits = @commits.where(project_id: params[:project_id]) if valid_project_id?
     @commits = @commits.where(Sequel.like(:commit_hash, "#{params[:commit_hash]}%")) if valid_commit_hash?
