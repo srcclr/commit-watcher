@@ -16,7 +16,7 @@ limitations under the License.
 
 class CommitsController < ApplicationController
   helper_method :sort_column, :sort_direction
-  before_action :reset_params, :set_status_type_id
+  before_action :reset_params, :set_params
 
   def index
     @commits = Commits.join(:projects, id: :project_id)
@@ -72,23 +72,23 @@ private
     end
   end
 
-  def set_status_type_id
+  def set_params
     if params[:status_type_id]
       session[:status_type_id] = params[:status_type_id]
+    end
+    if params[:direction]
+      session[:direction] = params[:direction]
+    end
+    if params[:order]
+      session[:order] = params[:order]
     end
   end
 
   def sort_direction
-    if params[:direction]
-      session[:direction] = params[:direction]
-    end
     %w[asc desc].include?(session[:direction]) ? session[:direction] : 'asc'
   end
 
   def sort_column
-    if params[:order]
-      session[:order] = params[:order]
-    end
     Commits.columns.include?(session[:order] && session[:order].to_sym) ? session[:order] : 'project_id'
   end
 
