@@ -3,11 +3,18 @@
   border: 1px solid #e5e5e5;
   text-align: center;
   padding: 1em;
-  cursor: default; }
+  cursor: default;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
 .pagination a, .pagination span {
-  padding: 0.2em 0.3em; }
+  padding: 0.2em 0.3em;
+}
 .pagination .disabled {
-  color: #aaaaaa; }
+  color: #aaaaaa;
+}
 .pagination .current {
   font-style: normal;
   font-weight: bold;
@@ -19,9 +26,12 @@
   -moz-border-radius: 1em;
   -webkit-border-radius: 1em;
   border-radius: 1em;
-  text-shadow: rgba(255, 255, 255, 0.8) 1px 1px 1px; }
+  text-shadow: rgba(255, 255, 255, 0.8) 1px 1px 1px;
+}
 .pagination a {
   text-decoration: none;
-  color: black; }
+  color: black;
+}
 .pagination a:hover, .pagination a:focus {
-  text-decoration: underline; }
+  text-decoration: underline;
+}

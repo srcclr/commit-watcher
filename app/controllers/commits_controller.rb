@@ -23,6 +23,7 @@ class CommitsController < ApplicationController
         .select_append(:projects__name)
         .order(order_expr)
 
+    @commits = @commits.where("DATE(commit_date) > 2010-12-31")
     @commits = @commits.where(status_type_id: params[:status_type_id]) if valid_status_type?
     @commits = @commits.where(project_id: params[:project_id]) if valid_project_id?
     @commits = @commits.where(Sequel.like(:commit_hash, "#{params[:commit_hash]}%")) if valid_commit_hash?
@@ -31,6 +32,8 @@ class CommitsController < ApplicationController
     page = params[:page] ? params[:page].to_i : 1
     results_per_page = 25
     @commits = @commits.paginate(page, results_per_page)
+    @commit_audit_results = {}
+    @commits.map { |commit| @commit_audit_results[commit.audit_results] = JSON.parse(commit.audit_results) }
   end
 
   def update
