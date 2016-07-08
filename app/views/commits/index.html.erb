@@ -23,7 +23,7 @@ limitations under the License.
 <%= form_tag(url_for, method: 'get') do %>
     <%= label_tag(:status, 'Status:') %>
     <%= select_tag(:status_type_id,
-                   options_for_select(['All'] + statuses, params[:status_type_id]),
+                   options_for_select(['All'] + statuses, session[:status_type_id]),
                    onChange: '$(this.form).submit();') %>
 
     <%= label_tag(:audit_results, 'Audit Results:') %>
