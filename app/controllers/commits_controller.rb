@@ -16,6 +16,7 @@ limitations under the License.
 
 class CommitsController < ApplicationController
   helper_method :sort_column, :sort_direction
+  before_action :reset_params, :set_params
 
   def index
     @commits = Commits.join(:projects, id: :project_id)
@@ -23,8 +24,8 @@ class CommitsController < ApplicationController
         .select_append(:projects__name)
         .order(order_expr)
 
-    @commits = @commits.where("DATE(commit_date) > 2010-12-31")
-    @commits = @commits.where(status_type_id: params[:status_type_id]) if valid_status_type?
+    @commits = @commits.where("DATE(commit_date) > '2010-12-31'")
+    @commits = @commits.where(status_type_id: session[:status_type_id]) if valid_status_type?
     @commits = @commits.where(project_id: params[:project_id]) if valid_project_id?
     @commits = @commits.where(Sequel.like(:commit_hash, "#{params[:commit_hash]}%")) if valid_commit_hash?
     @commits = @commits.where(Sequel.like(:audit_results, "%#{params[:audit_results]}%")) if params[:audit_results]
@@ -63,16 +64,36 @@ class CommitsController < ApplicationController
 
 private
 
+  def reset_params
+    if !params[:status_type_id] && !params[:direction] && !params[:order]
+      session.delete(:direction)
+      session.delete(:order)
+      session.delete(:status_type_id)
+    end
+  end
+
+  def set_params
+    if params[:status_type_id]
+      session[:status_type_id] = params[:status_type_id]
+    end
+    if params[:direction]
+      session[:direction] = params[:direction]
+    end
+    if params[:order]
+      session[:order] = params[:order]
+    end
+  end
+
   def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
+    %w[asc desc].include?(session[:direction]) ? session[:direction] : 'asc'
   end
 
   def sort_column
-    Commits.columns.include?(params[:order] && params[:order].to_sym) ? params[:order] : 'project_id'
+    Commits.columns.include?(session[:order] && session[:order].to_sym) ? session[:order] : 'project_id'
   end
 
   def valid_status_type?
-    StatusTypes.keys.map(&:to_s).include?(params[:status_type_id])
+    StatusTypes.keys.map(&:to_s).include?(session[:status_type_id])
   end
 
   def valid_commit_hash?

@@ -23,7 +23,7 @@ limitations under the License.
 <%= form_tag(url_for, method: 'get') do %>
     <%= label_tag(:status, 'Status:') %>
     <%= select_tag(:status_type_id,
-                   options_for_select(['All'] + statuses, params[:status_type_id]),
+                   options_for_select(['All'] + statuses, session[:status_type_id]),
                    onChange: '$(this.form).submit();') %>
 
     <%= label_tag(:audit_results, 'Audit Results:') %>
@@ -43,7 +43,7 @@ limitations under the License.
 
   <% @commits.each do |commit| %>
     <tr>
-      <td><%= "#{commit.project_id} - #{commit[:name]}" %></td>
+      <td><%= link_to "#{commit.project_id} - #{commit[:name]}", "https://www.github.com/#{commit[:name]}", target: '_blank' %></td>
       <td><%= link_to commit.commit_hash[0..12], commit_path(commit.id) %></td>
       <td><%= link_to 'commit', "https://www.github.com/#{commit[:name]}/commit/#{commit.commit_hash}", target: '_blank' %></td>
       <td>
