@@ -54,7 +54,7 @@ limitations under the License.
       <td><%= commit.commit_date %></td>
       <td><%= commit.date_created %></td>
       <td><code>
-        <% JSON.parse(commit.audit_results).each do |audit_result| %>
+        <% @commit_audit_results[commit.audit_results].each do |audit_result| %>
           <%= audit_result['audit_result'] %>
         <% end %>
       </code></td>

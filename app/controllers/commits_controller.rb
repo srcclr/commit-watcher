@@ -32,6 +32,8 @@ class CommitsController < ApplicationController
     page = params[:page] ? params[:page].to_i : 1
     results_per_page = 25
     @commits = @commits.paginate(page, results_per_page)
+    @commit_audit_results = {}
+    @commits.map { |commit| @commit_audit_results[commit.audit_results] = JSON.parse(commit.audit_results) }
   end
 
   def update
