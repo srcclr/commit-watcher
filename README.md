@@ -70,7 +70,7 @@ To start processing jobs, in another terminal:
 bundle exec sidekiq
 ```
 
-### Running with Docker
+### Running with Docker / RDS
 
 First, change the root and user passwords in [`.env.db`](.env.db).
 
@@ -90,6 +90,39 @@ Second, modify [`config/database.yml`](config/database.yml) by commenting out `s
 
   # Use this for Docker
   host: db
+```
+
+Alternatively, for RDS, setup the external RDS URL:
+
+```bash
+echo "COMMIT_WATCHER_EXTERNAL_DATABASE_URL: 'somedb.rds.amazonaws.com'" >> config/application.yml
+```
+
+Then, modify [`config/database.yml`](config/database.yml) by commenting out `socket` in favor of `host`, like this:
+
+```yaml
+  # Use this for local mysql instances
+  #socket: /tmp/mysql.sock
+
+  # Use this for Docker
+  #host: db
+
+  # Use this for External RDS
+  host: <%= ENV['COMMIT_WATCHER_EXTERNAL_DATABASE_URL'] %>
+```
+
+And modify [`docker-compose.yml`](docker-compose.yml) by commenting out `- db` in the `web:` section, like this:
+
+```yaml
+  web:
+    build: .
+    volumes:
+      - .:/myapp
+    ports:
+      - '3000:3000'
+    links:
+      #- db
+      - redis
 ```
 
 Now start everything going with:
