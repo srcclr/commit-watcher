@@ -111,7 +111,7 @@ Then, modify [`config/database.yml`](config/database.yml) by commenting out `soc
   host: <%= ENV['COMMIT_WATCHER_EXTERNAL_DATABASE_URL'] %>
 ```
 
-And modify [`docker-compose.yml`](docker-compose.yml) by commenting out `- db` in the `web:` section, like this:
+And modify [`docker-compose.yml`](docker-compose.yml) by commenting out `- db` in the `web:` and `sidekiq:` sections, like this:
 
 ```yaml
   web:
@@ -123,6 +123,14 @@ And modify [`docker-compose.yml`](docker-compose.yml) by commenting out `- db` i
     links:
       #- db
       - redis
+    ...
+    sidekiq:
+      build: .
+      volumes:
+        - .:/myapp
+      links:
+        #- db
+        - redis
 ```
 
 Now start everything going with:
