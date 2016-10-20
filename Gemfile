@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.5.2'
+gem 'rails', '5.0.0.1'
 
 # Use mysql + sequel instead of ActiveRecord
 gem 'mysql2'
@@ -22,7 +22,7 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+gem 'turbolinks', '>=5.0.1'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
@@ -34,7 +34,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'figaro', '~> 1.1.1'
 
 # Queues and workers and jobs, oh my!
-gem 'sidekiq', '~> 4.1.0'
+gem 'sidekiq', '~> 4.2.1'
 gem "sidekiq-cron", "~> 0.4.2"
 gem 'sidekiq-limit_fetch'
 
@@ -57,9 +57,9 @@ gem 'git_diff_parser'
 gem 'citrus'
 
 # Use this to_json method to avoid encoding errors
-gem 'activesupport-json_encoder'
+# gem 'activesupport-json_encoder'
 
-gem 'sinatra', '>= 1.4.7', require: nil
+gem 'sinatra', '>= 2.0.0.beta2', require: nil
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -72,8 +72,8 @@ group :development, :test do
   gem 'spring'
 
   # Tests
-  gem 'rspec', '~> 3.4.0'
-  gem 'rspec-rails', '~> 3.4.0'
+  gem 'rspec', '~> 3.6.0.beta1'
+  gem 'rspec-rails', '~> 3.6.0.beta1'
   gem 'factory_girl_rails'
   gem 'faker'
 
