@@ -18,7 +18,10 @@ require_relative "#{Rails.root}/lib/github_api"
 
 class ProjectsController < ApplicationController
   def index
-    @projects = Projects
+    page = params[:page] ? params[:page].to_i : 1
+    results_per_page = 100
+    @projects = Projects.select_all(:projects)
+    @projects = @projects.paginate(page, results_per_page)
   end
 
   def edit

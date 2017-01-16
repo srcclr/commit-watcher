@@ -16,6 +16,7 @@ limitations under the License.
 
 require 'git_diff_parser'
 require 'rugged'
+require 'fileutils'
 
 class GitRepo
   def initialize(project_name)
@@ -27,11 +28,13 @@ class GitRepo
     #Rails.logger.debug "called commits for #{@project_name}"
     return @commits if @commits
 
-    @repo ||= clone
+    repo_local_path = make_temp_dir(@project_name)
+    @repo ||= clone(repo_local_path)
     walker = Rugged::Walker.new(@repo)
     walker.push(@repo.head.target)
     @commits = walker.to_a
     #Rails.logger.debug "built walker for #{@project_name}, #{@commits.size}"
+    FileUtils.rm_rf(repo_local_path)
     @commits
   end
 
@@ -59,15 +62,18 @@ class GitRepo
 
 private
 
-  def clone
+  def make_temp_dir(project_name)
+    Dir.mktmpdir(['cwatcher', @project_name.sub('/', '-')])
+  end
+
+  def clone(project_path)
     #Rails.logger.debug "getting clone of #{@project_name}"
-    path = Dir.mktmpdir(['cwatcher', @project_name.sub('/', '-')])
-    cmd = "git clone --no-checkout --quiet https://anon:anon@github.com/#{@project_name} #{path}"
+    cmd = "git clone --no-checkout --quiet https://anon:anon@github.com/#{@project_name} #{project_path}"
     result = `#{cmd} 2>&1`
     fail result if $?.exitstatus != 0
     #Rails.logger.debug "done cloning #{@project_name}"
 
-    Rugged::Repository.new(path)
+    Rugged::Repository.new(project_path)
   end
 
   def build_commit_hash(commit)
