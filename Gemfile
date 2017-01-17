@@ -38,6 +38,10 @@ gem 'sidekiq', '~> 4.1.0'
 gem "sidekiq-cron", "~> 0.4.2"
 gem 'sidekiq-limit_fetch'
 
+# Slack notification integration
+gem 'slack-notifier'
+
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
