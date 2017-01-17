@@ -15,7 +15,6 @@ limitations under the License.
 =end
 
 require 'git_diff_parser'
-require 'activesupport/json_encoder'
 
 require_relative "#{Rails.root}/lib/audit_results_builder"
 require_relative "#{Rails.root}/lib/github_api"

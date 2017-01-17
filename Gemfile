@@ -60,9 +60,6 @@ gem 'git_diff_parser'
 # Boolean expression grammar parsing
 gem 'citrus'
 
-# Use this to_json method to avoid encoding errors
-# gem 'activesupport-json_encoder'
-
 gem 'sinatra', '>= 2.0.0.beta2', require: nil
 
 group :development, :test do

@@ -3,6 +3,5 @@
 bundle exec rake assets:precompile --trace
 
 export SECRET_KEY_BASE=$(rake secret)
-export COMMIT_WATCHER_DATABASE_PASSWORD=$(cat /etc/commit-watcher-secrets/mysql)
 
 bundle exec rails server -b 0.0.0.0
