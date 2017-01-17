@@ -26,6 +26,7 @@ test:
 
 production:
   <<: *default
-  username: commit_watcher
+  username: <%= ENV['COMMIT_WATCHER_DATABASE_USER'] %>
   password: <%= ENV['COMMIT_WATCHER_DATABASE_PASSWORD'] %>
-  database: commit_watcher_production
+  database: <%= ENV['COMMIT_WATCHER_DATABASE_NAME'] %>
+  host: <%= ENV['COMMIT_WATCHER_DATABASE_HOST'] %>
