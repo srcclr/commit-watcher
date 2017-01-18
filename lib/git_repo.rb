@@ -34,7 +34,7 @@ class GitRepo
     walker.push(@repo.head.target)
     @commits = walker.to_a
     #Rails.logger.debug "built walker for #{@project_name}, #{@commits.size}"
-    FileUtils.rm_rf(repo_local_path)
+    # FileUtils.rm_rf(repo_local_path)
     @commits
   end
 

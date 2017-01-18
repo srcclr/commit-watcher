@@ -31,9 +31,9 @@ class Commits < Sequel::Model
 
         notification = Notifications[id: notification_id]
 
-        if rule[:notification_id] == 0
+        if audit_result[:notification_id] == 0
           NotificationMailer.notification(notification.target, self.project_id, self.commit_hash, audit_result).deliver_now
-        elsif rule[:notification_id] == 1
+        elsif audit_result[:notification_id] == 1
           SlackNotifier.new(notification.target, self.project_id, commit_hash, audit_result).notify
         end
     end
