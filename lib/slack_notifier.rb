@@ -7,7 +7,7 @@ class SlackNotifier
     @webhook = webhook
   end
 
-  def self.notify
+  def notify
     notifier = Slack::Notifier.new @webhook
     notifier.ping "Commit hash #{@commit_hash} of the project #{@project_name} has been detected to violate #{@audit_result}."
   end
