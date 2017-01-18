@@ -34,7 +34,7 @@ class GitRepo
     walker.push(@repo.head.target)
     @commits = walker.to_a
     #Rails.logger.debug "built walker for #{@project_name}, #{@commits.size}"
-    FileUtils.rm_rf(repo_local_path)
+    @repo_local_path = repo_local_path
     @commits
   end
 
@@ -74,6 +74,10 @@ private
     #Rails.logger.debug "done cloning #{@project_name}"
 
     Rugged::Repository.new(project_path)
+  end
+
+  def cleanup
+    FileUtils.rm_rf(repo_local_path)
   end
 
   def build_commit_hash(commit)
