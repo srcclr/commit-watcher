@@ -12,5 +12,4 @@ RUN mkdir /myapp
 ADD . /myapp
 WORKDIR /myapp
 
-RUN bundle exec sidekiq &
 ENTRYPOINT scripts/deploy
