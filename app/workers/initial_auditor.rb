@@ -45,7 +45,7 @@ class InitialAuditor
         Rails.logger.debug "Dropping duplicate commit: #{results}"
       end
     end
-    repo.cleanup
+    repo.destroy
     end_time = Time.now
     Rails.logger.debug "Finished auditing #{project_name} in #{end_time - start_time} seconds"
 

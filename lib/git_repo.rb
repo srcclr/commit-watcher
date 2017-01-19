@@ -60,6 +60,10 @@ class GitRepo
     end
   end
 
+  def destroy
+    cleanup
+  end
+
 private
 
   def make_temp_dir(project_name)
