@@ -4,5 +4,8 @@ bundle exec rake assets:precompile --trace
 
 export SECRET_KEY_BASE=$(rake secret)
 
+bundle exec rake db:setup || true
+bundle exec rake db:migrate
+
 bundle exec sidekiq &
 bundle exec rails server -b 0.0.0.0
