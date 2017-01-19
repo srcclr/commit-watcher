@@ -4,6 +4,7 @@ staging:
   :concurrency: 5
 production:
   :concurrency: 10
+  :logfile: ./log/sidekiq.log
 :queues:
   - audit_commits
   - collect_commits
