@@ -19,8 +19,10 @@ require 'rugged'
 require 'fileutils'
 
 class GitRepo
-  def initialize(project_name)
+  def initialize(project_name, project_username, project_access_token)
     @project_name = project_name
+    @project_username = project_username
+    @project_access_token = project_access_token
     @repo = nil
   end
 
@@ -72,7 +74,11 @@ private
 
   def clone(project_path)
     #Rails.logger.debug "getting clone of #{@project_name}"
-    cmd = "git clone --no-checkout --quiet https://anon:anon@github.com/#{@project_name} #{project_path}"
+    if @project_name.empty? and @project_access_token.empty?
+      cmd = "git clone --no-checkout --quiet https://anon:anon@github.com/#{@project_name} #{project_path}"
+    else
+      cmd = "git clone --no-checkout --quiet https://#{@project_username}:#{@project_access_token}@github.com/#{@project_name} #{project_path}"
+    end
     result = `#{cmd} 2>&1`
     fail result if $?.exitstatus != 0
     #Rails.logger.debug "done cloning #{@project_name}"
@@ -81,7 +87,7 @@ private
   end
 
   def cleanup
-    FileUtils.rm_rf(repo_local_path)
+    FileUtils.rm_rf(@repo_local_path)
   end
 
   def build_commit_hash(commit)

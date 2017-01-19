@@ -21,9 +21,9 @@ class InitialAuditor
   include Sidekiq::Worker
   sidekiq_options queue: :initial_audits
 
-  def perform(project_id, project_name, rules)
+  def perform(project_id, project_name, project_username, project_access_token, rules)
     Rails.logger.debug "Collecting commits for #{project_name} for the first time"
-    repo = GitRepo.new(project_name)
+    repo = GitRepo.new(project_name, project_username, project_access_token)
     Rails.logger.debug "Collected #{repo.commits.size} commits from #{project_name}"
 
     start_time = Time.now
