@@ -89,7 +89,7 @@ private
   def cleanup
     FileUtils.rm_rf(@repo_local_path)
   end
-
+  
   def build_commit_hash(commit)
     # Make a hash that looks a bit like GitHub commit
     {
