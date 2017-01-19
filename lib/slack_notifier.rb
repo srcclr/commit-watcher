@@ -11,7 +11,7 @@ class SlackNotifier
 
   def notify
     notifier = Slack::Notifier.new @webhook
-    notifier.ping "Commit hash [#{@commit_hash}](https://#{@project_name}/commit/#{commit_hash}) of the project #{@project_name} has been detected to violate the following:\n#{rule_name}\n"
+    notifier.ping "Commit hash [#{@commit_hash}](https://#{@project_name}/commit/#{@commit_hash}) of the project #{@project_name} has been detected to violate the following:\n#{rule_name}\n"
   end
 
   private
