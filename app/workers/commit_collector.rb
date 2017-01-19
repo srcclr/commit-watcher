@@ -23,11 +23,11 @@ class CommitCollector
 
   COMMITS_URL = 'https://api.github.com/repos/%s/commits'.freeze
 
-  def perform(project_id, project_name, last_commit_time, rules, github_token)
+  def perform(project_id, project_name, project_username, project_access_token, last_commit_time, rules, github_token)
     last_commit_time = Time.parse(last_commit_time)
     Rails.logger.debug "Collecting commits for #{project_name} since #{last_commit_time}"
 
-    commits = collect_commits(project_name, last_commit_time, github_token)
+    commits = collect_commits(project_name, project_username, project_access_token, last_commit_time, github_token)
     Rails.logger.debug "Collected #{commits.size} commits from #{project_name}"
     return if commits.size == 0
 
@@ -39,8 +39,8 @@ class CommitCollector
     Projects[id: project_id].update(last_commit_time: last_commit_time)
   end
 
-  def collect_commits(project_name, last_commit_time, github_token)
-    gh = GitHubAPI.new(github_token)
+  def collect_commits(project_name, project_username, project_access_token, last_commit_time, github_token)
+    gh = GitHubAPI.new(github_token, project_username, project_access_token)
     gh.get_commits(project_name, last_commit_time)
   end
 end
