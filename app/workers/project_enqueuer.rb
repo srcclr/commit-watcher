@@ -59,12 +59,16 @@ class ProjectEnqueuer
         InitialAuditor.perform_async(
           project[:id],
           project[:name],
+          project[:username],
+          project[:access_token],
           rules.to_json
         )
       else
         CommitCollector.perform_async(
           project[:id],
           project[:name],
+          project[:username],
+          project[:access_token],
           last_commit_time,
           rules.to_json,
           github_token
