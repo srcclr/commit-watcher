@@ -2,13 +2,13 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: 5
-  username: root
-  password:
+  username: commit_watcher
+  password: changeme123
   # Use this for local mysql instances
-  socket: /tmp/mysql.sock
+  # socket: /tmp/mysql.sock
 
   # Use this for Docker
-  #host: db
+  host: db
 
   # Use this for External RDS
   #host: <%= ENV['COMMIT_WATCHER_EXTERNAL_DATABASE_URL'] %>
