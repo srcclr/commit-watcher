@@ -2,13 +2,13 @@
 
 Commit Watcher finds interesting and potentially hazardous commits in git projects. Watch your own projects to make sure you didn't accidentally leak your AWS keys or other credentials, and watch open-source projects you use to find undisclosed security vulnerabilities and patches.
 
-At [SourceClear](https://srcclr.com/), we want to help you use open-source software safely. Oftentimes when a security vulnerability is discovered and fixed in an open-source project, there isn't a public disclosure about it. In part, this is because the [CVE](https://en.wikipedia.org/wiki/Common_Vulnerabilities_and_Exposures) process is onerous and labor intensive, and notifying all the users of a project isn't possible.
+At [SourceClear](https://srcclr.com/), we help you use open-source software safely. Often times when a security vulnerability is discovered and fixed in an open-source project, there isn't a public disclosure about it. Because the [CVE](https://en.wikipedia.org/wiki/Common_Vulnerabilities_and_Exposures) process is onerous and labor intensive, and notifying all the users of a project isn't possible.
 
 Oh, and about that UI. Commit Watcher is intended to be an API accessible backend service. The UI is only there for testing, and the scope of functionality is limited to collecting commits and auditing them against a set of rules.
 
 ## Contributing
 
-Check out the dozens of rules and patterns in the [srcclr/commit-watcher-rules](https://github.com/srcclr/commit-watcher-rules) repository that help find leaked credentials and potential security issues. Just open an issue or PR in that repo if there's a rule you'd like to see added.
+Check out the dozens of rules in the [srcclr/commit-watcher-rules](https://github.com/srcclr/commit-watcher-rules) repository that help to find leaked credentials and potential security issues. Just open an issue or PR in that repo if there's a rule you'd like to see added.
 
 Additionally, if you find a security issue on an open-source project using Commit Watcher, our security research team would love to help verify it. You can open an issue against this repo from the UI, or just drop a link to the offending commit in a [new issue](https://github.com/srcclr/commit-watcher/issues/new).
 
