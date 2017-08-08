@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/libgit2/rugged.git
-  revision: e514359ef6e361fdef95c0dc67aa3c8050dff7b4
+  revision: 88104e8f64c9bbc3c2804726d1f0a29d1c9f3bf9
   submodules: true
   specs:
-    rugged (0.25.0b10)
+    rugged (0.24.0)
 
 GEM
   remote: https://rubygems.org/
@@ -257,4 +257,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   1.13.5
+   1.13.6
