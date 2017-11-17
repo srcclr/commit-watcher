@@ -573,5 +573,3 @@ sensitive_rules = %w(
 
 RuleSets.create(name: 'vulns', rules: ['strong_vuln_patterns'].to_json, description: 'Finds fixes for vulnerabilities')
 RuleSets.create(name: 'sensitive', rules: sensitive_rules.to_json, description: 'Finds files which may contain sensitive information')
-
-Projects.create(name: 'srcclr/commit_watcher', rule_sets: ['vulns'].to_json)

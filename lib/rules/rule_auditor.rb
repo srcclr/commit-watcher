@@ -26,7 +26,7 @@ class RuleAuditor
     @all_rules = all_rules
   end
 
-  def audit(commit, rule_type_id, rule_value, diff)
+  def audit(commit, rule_type_id, rule_value, diff, rule_value_2='')
     case rule_type_id
     when 1
       return unless diff
@@ -45,6 +45,8 @@ class RuleAuditor
       audit_commit_pattern(commit, Regexp.new(rule_value), diff)
     when 7
       audit_expression(commit, rule_value, diff)
+    when 8
+      audit_specific_file_changes_pattern(Regexp.new(rule_value), Regexp.new(rule_value_2), diff)
     end
   end
 
@@ -155,6 +157,20 @@ private
     results << audit_message_pattern(commit, pattern)
     results << audit_code_pattern(pattern, diff) if diff
     results.compact!
+    results.empty? ? nil : results
+  end
+
+  def audit_specific_file_changes_pattern(pattern, filename, diff)
+    results = []
+    return results if filename.blank?
+    diff.each do |d|
+      next if d.file.empty? || (d.file =~ filename).blank?
+      next if d.body.empty? || (d.body =~ pattern).blank?
+      results << {
+          file: d.file,
+          body: d.body,
+      }
+    end
     results.empty? ? nil : results
   end
 end
