@@ -26,3 +26,7 @@
   :name: 'expression'
   :requires_diff: true
   :description: 'Boolean expression referencing one or more rules'
+8:
+  :name: 'specific_file_changes'
+  :requires_diff: true
+  :description: 'Regular expression for any code in a specified file'

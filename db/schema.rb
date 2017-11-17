@@ -64,6 +64,7 @@ Sequel.migration do
       column :value, "longtext", :null=>false
       column :description, "text"
       foreign_key :notification_id, :notifications, :type=>"int(11) unsigned", :key=>[:id]
+      column :value2, "longtext"
       
       index [:name], :name=>:name, :unique=>true
       index [:notification_id], :name=>:notification_id
@@ -74,5 +75,6 @@ end
                 change do
                   self << "INSERT INTO `schema_migrations` (`filename`) VALUES ('20170118000000_initial_migration.rb')"
 self << "INSERT INTO `schema_migrations` (`filename`) VALUES ('20170119020524_add_credentials_to_projects.rb')"
+self << "INSERT INTO `schema_migrations` (`filename`) VALUES ('20171117075335_add_value_2_to_rules.rb')"
                 end
               end
