@@ -162,7 +162,7 @@ private
 
   def audit_specific_file_changes_pattern(pattern, filename, diff)
     results = []
-    return results if filename.blank?
+    return results if filename.blank? || diff.blank?
     diff.each do |d|
       next if d.file.empty? || (d.file =~ filename).blank?
       next if d.body.empty? || (d.body =~ pattern).blank?
