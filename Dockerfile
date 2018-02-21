@@ -11,3 +11,5 @@ RUN gem install bundler && bundle install
 RUN mkdir /myapp
 ADD . /myapp
 WORKDIR /myapp
+
+ENTRYPOINT scripts/deploy

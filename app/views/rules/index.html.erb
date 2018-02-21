@@ -24,6 +24,7 @@ limitations under the License.
     <th>Name</th>
     <th>Rule Type Id</th>
     <th>Value</th>
+    <th>Value 2</th>
     <th>Description</th>
     <th>Notification</th>
     <th colspan="2"></th>
@@ -34,6 +35,7 @@ limitations under the License.
       <td><%= rule.name %></td>
       <td><%= rule.rule_type_id %></td>
       <td><code><%= rule.value %></code></td>
+      <td><code><%= rule.value2 %></code></td>
       <td><%= rule.description %></td>
       <td><%= rule.notification_id %></td>
       <td><%= link_to 'Edit', edit_rule_path(rule.id) %></td>

@@ -1,3 +1,16 @@
 #!/bin/sh
+
+echo 'Waiting for MySQL to be available...'
+while ! mysqladmin ping -h"$COMMIT_WATCHER_DATABASE_HOST" --silent; do
+  sleep 2
+done
+echo 'MySQL is up!'
+
 bundle exec rake assets:precompile --trace
-SECRET_KEY_BASE=`rake secret` bundle exec rails server -b 0.0.0.0
+
+export SECRET_KEY_BASE=$(rake secret)
+
+bundle exec rake db:migrate
+
+bundle exec sidekiq -d -C config/sidekiq.yml
+bundle exec rails server -b 0.0.0.0

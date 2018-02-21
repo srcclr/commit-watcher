@@ -3,4 +3,4 @@
   :description: 'Send a notification to an email address, or a comma-separated list of email addresses.'
 1:
   :name: 'slack'
-  :description: '*NOT IMPLEMENTED* Send a notification to a Slack channel or name.'
+  :description: 'Send a notification to a Slack webhook endpoint.'

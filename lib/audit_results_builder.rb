@@ -27,11 +27,13 @@ class AuditResultsBuilder
     audit_results = []
     auditor = RuleAuditor.new(@all_rules)
     rules.each do |r|
+      value2 = r[:value2] || ''
       audit_result = auditor.audit(
         commit,
         r[:rule_type_id],
         r[:value],
-        diff
+        diff,
+        value2
       )
       next unless audit_result
 

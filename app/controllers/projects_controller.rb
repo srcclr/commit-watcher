@@ -32,9 +32,9 @@ class ProjectsController < ApplicationController
     params = create_project_params
     begin
       if params[:name].include?('/')
-        @project = import_project(params[:name], params[:rule_sets])
+        @project = import_project(params[:name], params[:rule_sets], params[:username], params[:access_token])
       else
-        @project = import_user(params[:name], params[:rule_sets])
+        @project = import_user(params[:name], params[:rule_sets], params[:username], params[:access_token])
       end
 
       redirect_to action: 'index'
@@ -66,26 +66,26 @@ class ProjectsController < ApplicationController
 
 private
 
-  def import_user(username, rule_sets)
+  def import_user(name, rule_sets, username, access_token)
     github_token = Configurations.first.github_token
     gh = GitHubAPI.new(github_token)
-    repo_names = gh.get_repo_names(username)
+    repo_names = gh.get_repo_names(name)
     repo_names.each do |repo_name|
-      import_project("#{username}/#{repo_name}", rule_sets)
+      import_project("#{name}/#{repo_name}", rule_sets, username, access_token)
     end
   end
 
-  def import_project(name, rule_sets)
-    project = Projects.new({ name: name, rule_sets: rule_sets })
+  def import_project(name, rule_sets, username, access_token)
+    project = Projects.new({ name: name, rule_sets: rule_sets, username: username, access_token: access_token })
     project.save
     project
   end
 
   def create_project_params
-    params.require(:project).permit(:name, :rule_sets)
+    params.require(:project).permit(:name, :rule_sets, :username, :access_token)
   end
 
   def update_project_params
-    params.require(:project).permit(:name, :rule_sets, :next_audit, :last_commit_time)
+    params.require(:project).permit(:name, :rule_sets, :username, :access_token, :next_audit, :last_commit_time)
   end
 end

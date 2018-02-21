@@ -19,8 +19,10 @@ require 'rugged'
 require 'fileutils'
 
 class GitRepo
-  def initialize(project_name)
+  def initialize(project_name, project_username, project_access_token)
     @project_name = project_name
+    @project_username = project_username
+    @project_access_token = project_access_token
     @repo = nil
   end
 
@@ -34,7 +36,7 @@ class GitRepo
     walker.push(@repo.head.target)
     @commits = walker.to_a
     #Rails.logger.debug "built walker for #{@project_name}, #{@commits.size}"
-    FileUtils.rm_rf(repo_local_path)
+    @repo_local_path = repo_local_path
     @commits
   end
 
@@ -60,6 +62,10 @@ class GitRepo
     end
   end
 
+  def destroy
+    cleanup
+  end
+
 private
 
   def make_temp_dir(project_name)
@@ -68,7 +74,11 @@ private
 
   def clone(project_path)
     #Rails.logger.debug "getting clone of #{@project_name}"
-    cmd = "git clone --no-checkout --quiet https://anon:anon@github.com/#{@project_name} #{project_path}"
+    if @project_name.empty? and @project_access_token.empty?
+      cmd = "git clone --no-checkout --quiet https://anon:anon@github.com/#{@project_name} #{project_path}"
+    else
+      cmd = "git clone --no-checkout --quiet https://#{@project_username}:#{@project_access_token}@github.com/#{@project_name} #{project_path}"
+    end
     result = `#{cmd} 2>&1`
     fail result if $?.exitstatus != 0
     #Rails.logger.debug "done cloning #{@project_name}"
@@ -76,6 +86,10 @@ private
     Rugged::Repository.new(project_path)
   end
 
+  def cleanup
+    FileUtils.rm_rf(@repo_local_path)
+  end
+  
   def build_commit_hash(commit)
     # Make a hash that looks a bit like GitHub commit
     {

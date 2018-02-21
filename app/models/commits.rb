@@ -16,6 +16,7 @@ limitations under the License.
 
 require 'json'
 require_relative "#{Rails.root}/app/mailers/notification_mailer"
+require_relative "#{Rails.root}/lib/slack_notifier"
 
 class Commits < Sequel::Model
   def after_create
@@ -29,9 +30,12 @@ class Commits < Sequel::Model
         next unless notification_id
 
         notification = Notifications[id: notification_id]
-        NotificationMailer.notification(
-            notification.target, self.project_id, self.commit_hash, audit_result
-        ).deliver_now
+
+        if audit_result[:notification_id] == 0
+          NotificationMailer.notification(notification.target, self.project_id, self.commit_hash, audit_result).deliver_now
+        elsif audit_result[:notification_id] == 1
+          SlackNotifier.new(notification.target, self.project_id, commit_hash, audit_result).notify
+        end
     end
   end
 end

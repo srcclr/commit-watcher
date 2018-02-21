@@ -57,6 +57,6 @@ class RulesController < ApplicationController
 private
 
   def rule_params
-    params.require(:rule).permit(:name, :rule_type_id, :value, :description, :notification_id)
+    params.require(:rule).permit(:name, :rule_type_id, :value, :value2, :description, :notification_id)
   end
 end

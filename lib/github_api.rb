@@ -23,7 +23,9 @@ class GitHubAPI
   COMMITS_URL = 'https://api.github.com/repos/%s/commits'.freeze
   REPOS_URL = 'https://api.github.com/users/%s/repos'.freeze
 
-  def initialize(token)
+  def initialize(token, project_username, project_access_token)
+    @project_username = project_username
+    @project_access_token = project_access_token
     @token = token
   end
 
@@ -86,6 +88,7 @@ class GitHubAPI
       Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
         request = Net::HTTP::Get.new(uri)
         request['Authorization'] = "token #{@token}"
+        request.basic_auth @project_username, @project_access_token unless (@project_username.empty? or @project_access_token.empty?)
         headers.each { |k,v| request[k] = v }
         response = http.request(request)
       end
@@ -95,7 +98,11 @@ class GitHubAPI
         reset_time = Time.at(response['x-ratelimit-reset'].to_i)
         sleep_duration = reset_time - Time.now
         Rails.logger.debug "Rate limited until #{reset_time} (#{sleep_duration} seconds)"
-        sleep(sleep_duration)
+        begin
+          sleep(sleep_duration)
+        rescue ArgumentError
+          sleep(600)  # 10 Min back off if sleep_duration is negative.
+        end
         next
       end
 
