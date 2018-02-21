@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.0.0.1'
+gem 'rails', '5.1.5'
 
 # Use mysql + sequel instead of ActiveRecord
 gem 'mysql2'
@@ -14,7 +14,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 2.7.2'
 
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
@@ -52,7 +52,7 @@ gem 'slack-notifier'
 # gem 'capistrano-rails', group: :development
 
 # Interface with locally cloned git repos
-gem 'rugged', git: 'git://github.com/libgit2/rugged.git', submodules: true
+gem 'rugged', git: 'https://github.com/libgit2/rugged.git', submodules: true
 
 # Parse diffs from GitHub
 gem 'git_diff_parser'
