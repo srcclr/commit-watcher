@@ -6,7 +6,7 @@ RUN apt-get install -y build-essential nodejs nodejs-legacy npm mysql-client vim
 WORKDIR /tmp
 COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
-RUN gem install bundler && bundle install
+RUN gem install bundler && bundle install && bundle update
 
 RUN mkdir /myapp
 ADD . /myapp

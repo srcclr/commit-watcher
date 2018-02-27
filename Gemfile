@@ -1,11 +1,12 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.1.5'
+gem 'rails', '5.0.0.1'
 
 # Use mysql + sequel instead of ActiveRecord
-gem 'mysql2'
-gem 'sequel-rails'
+gem 'mysql2', '0.4.5'
+gem 'sequel', '4.42.1'
+gem 'sequel-rails', '0.9.14'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -52,7 +53,7 @@ gem 'slack-notifier'
 # gem 'capistrano-rails', group: :development
 
 # Interface with locally cloned git repos
-gem 'rugged', git: 'https://github.com/libgit2/rugged.git', submodules: true
+gem 'rugged', git: 'git://github.com/libgit2/rugged.git', submodules: true
 
 # Parse diffs from GitHub
 gem 'git_diff_parser'
@@ -75,7 +76,7 @@ group :development, :test do
   # Tests
   gem 'rspec', '~> 3.6.0.beta1'
   gem 'rspec-rails', '~> 3.6.0.beta1'
-  gem 'factory_girl_rails'
+  gem 'factory_girl_rails', '4.8.0'
   gem 'faker'
 
   # Create hashes that look like classes with methods
