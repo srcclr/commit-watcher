@@ -238,3 +238,7 @@ To match a commit where any file is not a text file and includes "42":
 ```
 !is_txt && has_42
 ```
+
+## Publications 
+
+[Automated identification of security issues from commit messages and bug reports](https://dl.acm.org/citation.cfm?id=3117771), FSE 2017
